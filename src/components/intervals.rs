@@ -7,19 +7,19 @@ pub struct Interval {
 
 impl Interval {
     fn new(start: &str, end: &str) -> Result<Self, InvalidISO8601> {
-        if start[..1] == "P".to_string() {
-            if end[..1] == "P".to_string() {
+        if &start[..1] == "P" {
+            if &end[..1] == "P" {
                 return Err(InvalidISO8601);
             } else {
                 return Ok(Self {
-                    start: start.to_string(),
-                    end: end.to_string(),
+                    start: start.into(),
+                    end: end.into(),
                 });
             }
         } else {
             return Ok(Self {
-                start: start.to_string(),
-                end: end.to_string(),
+                start: start.into(),
+                end: end.into(),
             });
         }
     }
@@ -69,7 +69,7 @@ mod tests {
     fn new_both_period_fails() -> Result<(), String> {
         match Interval::new("P1D", "PT3H") {
             Err(InvalidISO8601) => Ok(()),
-            _ => Err("did not receive expected error".to_string()),
+            _ => Err("did not receive expected error".into()),
         }
     }
 
