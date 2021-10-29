@@ -9,18 +9,18 @@ impl Interval {
     fn new(start: &str, end: &str) -> Result<Self, InvalidISO8601> {
         if &start[..1] == "P" {
             if &end[..1] == "P" {
-                return Err(InvalidISO8601);
+                Err(InvalidISO8601)
             } else {
-                return Ok(Self {
+                Ok(Self {
                     start: start.into(),
                     end: end.into(),
-                });
+                })
             }
         } else {
-            return Ok(Self {
+            Ok(Self {
                 start: start.into(),
                 end: end.into(),
-            });
+            })
         }
     }
 }
@@ -46,7 +46,7 @@ impl FromStr for Interval {
                 return Self::new(start, end);
             }
         }
-        return Err(Self::Err {});
+        Err(Self::Err {})
     }
 }
 
