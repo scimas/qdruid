@@ -51,7 +51,7 @@ impl FromStr for Interval {
 }
 
 #[derive(Debug)]
-struct InvalidISO8601;
+pub struct InvalidISO8601;
 
 impl Display for InvalidISO8601 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
