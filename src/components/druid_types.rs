@@ -1,12 +1,11 @@
-pub enum DruidType<C> {
+pub enum DruidType {
     String(String),
     Double(f64),
     Float(f32),
     Long(i64),
-    Complex(C),
 }
 
-impl<C> DruidType<C> {
+impl DruidType {
     fn string<T: Into<String>>(s: T) -> Self {
         Self::String(s.into())
     }
@@ -21,9 +20,5 @@ impl<C> DruidType<C> {
 
     fn long<T: Into<i64>>(l: T) -> Self {
         Self::Long(l.into())
-    }
-
-    fn complex(c: C) -> Self {
-        Self::Complex(c)
     }
 }
