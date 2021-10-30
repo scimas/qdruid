@@ -69,4 +69,23 @@ pub enum Filter {
         expression: String,
     },
     True,
+    Spatial {
+        dimension: String,
+        bound: Bound,
+    },
+}
+
+pub enum Bound {
+    Rectangular {
+        min_coords: Vec<f64>,
+        max_coords: Vec<f64>,
+    },
+    Radius {
+        coords: Vec<f64>,
+        radius: f64,
+    },
+    Polygon {
+        abscissa: Vec<f64>,
+        ordinate: Vec<f64>,
+    },
 }
