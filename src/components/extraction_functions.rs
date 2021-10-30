@@ -78,7 +78,7 @@ impl ExtractionFunction {
         replace_missing_value_with: Option<DruidType>,
         injective: Option<bool>,
         optimize: Option<bool>,
-    ) -> Result<ExtractionFunction, LookupError> {
+    ) -> Result<Self, LookupError> {
         if let Some(true) = retain_missing_value {
             if let Some(s) = &replace_missing_value_with {
                 match s {
@@ -91,7 +91,7 @@ impl ExtractionFunction {
                 }
             }
         }
-        Ok(ExtractionFunction::RegisteredLookup {
+        Ok(Self::RegisteredLookup {
             lookup: lookup.into(),
             retain_missing_value,
             replace_missing_value_with,
@@ -106,7 +106,7 @@ impl ExtractionFunction {
         replace_missing_value_with: Option<DruidType>,
         injective: Option<bool>,
         optimize: Option<bool>,
-    ) -> Result<ExtractionFunction, LookupError> {
+    ) -> Result<Self, LookupError> {
         if let Some(true) = retain_missing_value {
             if let Some(s) = &replace_missing_value_with {
                 match s {
@@ -120,7 +120,7 @@ impl ExtractionFunction {
             }
         }
         match lookup {
-            Lookup::Map { .. } => Ok(ExtractionFunction::Lookup {
+            Lookup::Map { .. } => Ok(Self::Lookup {
                 lookup,
                 retain_missing_value,
                 replace_missing_value_with,
@@ -134,13 +134,13 @@ impl ExtractionFunction {
     fn string_format(
         format: &str,
         null_handling: Option<String>,
-    ) -> Result<ExtractionFunction, NullHandlingError> {
+    ) -> Result<Self, NullHandlingError> {
         if let Some(s) = &null_handling {
             if s != "nullString" && s != "emptyString" && s != "returnNull" {
                 return Err(NullHandlingError {});
             }
         }
-        Ok(ExtractionFunction::StringFormat {
+        Ok(Self::StringFormat {
             format: format.into(),
             null_handling,
         })
