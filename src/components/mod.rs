@@ -7,3 +7,4 @@ pub mod search_query_specs;
 pub mod extraction_functions;
 pub mod dimension_specs;
 pub mod filters;
+pub mod aggregations;
