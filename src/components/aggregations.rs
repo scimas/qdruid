@@ -1,6 +1,6 @@
-use super::filters::Filter;
+use super::{dimension_specs::DimensionSpec, filters::Filter};
 
-pub enum Aggregation {
+pub enum Aggregator {
     Count {
         name: String,
     },
@@ -97,10 +97,22 @@ pub enum Aggregation {
     },
     Filtered {
         filter: Filter,
-        aggregator: Box<Aggregation>,
+        aggregator: Box<Aggregator>,
     },
     Grouping {
         name: String,
         groupings: Vec<String>,
+    },
+    Cardinality {
+        name: String,
+        fields: Vec<DimensionSpec>,
+        by_row: Option<bool>,
+        round: Option<bool>,
+    },
+    HyperUnique {
+        name: String,
+        field_name: String,
+        is_input_hyper_unique: Option<bool>,
+        round: Option<bool>,
     },
 }
