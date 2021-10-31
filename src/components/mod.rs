@@ -11,3 +11,4 @@ pub mod aggregations;
 pub mod post_aggregations;
 pub mod topn_metric_specs;
 pub mod limit_specs;
+pub mod having_specs;
