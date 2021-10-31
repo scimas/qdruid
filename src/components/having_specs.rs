@@ -1,5 +1,6 @@
 use super::{druid_types::DruidType, filters::Filter};
 
+#[derive(Debug, Clone)]
 pub enum HavingSpec {
     Filter {
         filter: Filter,

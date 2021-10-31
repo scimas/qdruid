@@ -1,5 +1,6 @@
 use super::{dimension_specs::DimensionSpec, filters::Filter};
 
+#[derive(Debug, Clone)]
 pub enum Aggregator {
     Count {
         name: String,

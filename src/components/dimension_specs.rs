@@ -4,6 +4,7 @@ use super::{
     lookups::Lookup,
 };
 
+#[derive(Debug, Clone)]
 pub enum DimensionSpec {
     Default {
         dimension: String,

@@ -2,6 +2,7 @@ use std::{error::Error, fmt::Display};
 
 use super::druid_types::DruidType;
 
+#[derive(Debug, Clone)]
 pub enum PostAggregator {
     Arithmetic {
         name: String,

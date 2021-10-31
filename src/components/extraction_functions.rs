@@ -4,6 +4,7 @@ use super::{
 };
 use std::{error::Error, fmt::Display};
 
+#[derive(Debug, Clone)]
 pub enum ExtractionFunction {
     Regex {
         expr: String,

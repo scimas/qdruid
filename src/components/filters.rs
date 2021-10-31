@@ -3,6 +3,7 @@ use super::{
     search_query_specs::SearchQuerySpec,
 };
 
+#[derive(Debug, Clone)]
 pub enum Filter {
     Selector {
         dimension: DimensionSpec,
@@ -75,6 +76,7 @@ pub enum Filter {
     },
 }
 
+#[derive(Debug, Clone)]
 pub enum Bound {
     Rectangular {
         min_coords: Vec<f64>,

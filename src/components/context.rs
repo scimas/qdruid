@@ -1,6 +1,6 @@
 use super::druid_types::DruidType;
 
-#[derive(Default)]
+#[derive(Debug, Default, Clone)]
 pub struct Context {
     timeout: Option<DruidType>,
     priority: Option<DruidType>,

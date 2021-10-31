@@ -3,6 +3,7 @@ use crate::queries::Query;
 use std::error::Error;
 use std::fmt::Display;
 
+#[derive(Debug, Clone)]
 pub enum DataSource {
     Table {
         name: String,

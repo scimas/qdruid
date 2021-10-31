@@ -1,3 +1,4 @@
+#[derive(Debug, Clone)]
 pub enum DruidType {
     String(String),
     Double(f64),

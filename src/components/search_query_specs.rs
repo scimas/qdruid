@@ -1,5 +1,6 @@
 use super::druid_types::DruidType;
 
+#[derive(Debug, Clone)]
 pub enum SearchQuerySpec {
     InsensitiveContains {
         value: DruidType,   // must be String

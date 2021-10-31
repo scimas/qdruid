@@ -1,5 +1,6 @@
 use std::{error::Error, fmt::Display, str::FromStr};
 
+#[derive(Debug, Clone)]
 pub struct Interval {
     start: String,
     end: String,

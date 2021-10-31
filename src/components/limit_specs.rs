@@ -1,3 +1,4 @@
+#[derive(Debug, Clone)]
 pub enum LimitSpec {
     Default {
         limit: Option<usize>,
