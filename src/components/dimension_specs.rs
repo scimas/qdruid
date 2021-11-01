@@ -82,9 +82,7 @@ impl DimensionSpec {
 mod tests {
     use std::error::Error;
 
-    use crate::components::{
-        druid_types::DruidNativeType, extraction_functions::LookupError, lookups::Lookup,
-    };
+    use crate::components::{druid_types::DruidNativeType, extraction_functions::LookupError};
 
     use super::DimensionSpec;
 
