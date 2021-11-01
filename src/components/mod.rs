@@ -12,5 +12,6 @@ pub mod post_aggregations;
 pub mod topn_metric_specs;
 pub mod limit_specs;
 pub mod having_specs;
+pub mod to_include;
 pub mod virtual_columns;
 pub mod context;
