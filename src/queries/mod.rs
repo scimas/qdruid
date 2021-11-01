@@ -4,15 +4,15 @@ use self::{
     timeseries::Timeseries, topn::TopN,
 };
 
-mod datasource_metadata;
-mod groupby;
-mod scan;
-mod search;
-mod segment_metadata;
-mod sql;
-mod time_boundary;
-mod timeseries;
-mod topn;
+pub mod datasource_metadata;
+pub mod groupby;
+pub mod scan;
+pub mod search;
+pub mod segment_metadata;
+pub mod sql;
+pub mod time_boundary;
+pub mod timeseries;
+pub mod topn;
 
 #[derive(Debug, Clone)]
 pub enum Query {
