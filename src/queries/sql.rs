@@ -10,7 +10,7 @@ pub struct Sql {
 }
 
 impl Sql {
-    fn new(query: &str) -> Self {
+    pub fn new(query: &str) -> Self {
         Self {
             query: query.into(),
             result_format: None,
@@ -20,22 +20,22 @@ impl Sql {
         }
     }
 
-    fn result_format(&mut self, result_format: &str) -> &mut Self {
+    pub fn result_format(&mut self, result_format: &str) -> &mut Self {
         self.result_format = Some(result_format.into());
         self
     }
 
-    fn header(&mut self, header: bool) -> &mut Self {
+    pub fn header(&mut self, header: bool) -> &mut Self {
         self.header = Some(header);
         self
     }
 
-    fn parameters(&mut self, parameters: &[DruidSqlType]) -> &mut Self {
+    pub fn parameters(&mut self, parameters: &[DruidSqlType]) -> &mut Self {
         self.parameters = Some(parameters.to_vec());
         self
     }
 
-    fn context(&mut self, context: Context) -> &mut Self {
+    pub fn context(&mut self, context: Context) -> &mut Self {
         self.context = Some(context);
         self
     }

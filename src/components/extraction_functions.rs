@@ -73,7 +73,7 @@ pub enum ExtractionFunction {
 }
 
 impl ExtractionFunction {
-    fn registered_lookup(
+    pub fn registered_lookup(
         lookup: &str,
         retain_missing_value: Option<bool>,
         replace_missing_value_with: Option<DruidNativeType>,
@@ -101,7 +101,7 @@ impl ExtractionFunction {
         })
     }
 
-    fn lookup(
+    pub fn lookup(
         lookup: Lookup,
         retain_missing_value: Option<bool>,
         replace_missing_value_with: Option<DruidNativeType>,
@@ -132,7 +132,7 @@ impl ExtractionFunction {
         }
     }
 
-    fn string_format(
+    pub fn string_format(
         format: &str,
         null_handling: Option<String>,
     ) -> Result<Self, NullHandlingError> {
@@ -166,7 +166,7 @@ impl Display for LookupError {
 impl Error for LookupError {}
 
 #[derive(Debug)]
-struct NullHandlingError {}
+pub struct NullHandlingError {}
 
 impl Display for NullHandlingError {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {

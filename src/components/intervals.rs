@@ -7,7 +7,7 @@ pub struct Interval {
 }
 
 impl Interval {
-    fn new(start: &str, end: &str) -> Result<Self, InvalidISO8601> {
+    pub fn new(start: &str, end: &str) -> Result<Self, InvalidISO8601> {
         if &start[..1] == "P" {
             if &end[..1] == "P" {
                 Err(InvalidISO8601)

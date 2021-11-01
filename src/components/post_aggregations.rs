@@ -50,7 +50,7 @@ pub enum PostAggregator {
 }
 
 impl PostAggregator {
-    fn constant(name: &str, value: DruidNativeType) -> Result<Self, NonNumericConstant> {
+    pub fn constant(name: &str, value: DruidNativeType) -> Result<Self, NonNumericConstant> {
         match value {
             DruidNativeType::Long(_) | DruidNativeType::Double(_) | DruidNativeType::Float(_) => Ok(Self::Constant {
                 name: name.into(),
@@ -62,7 +62,7 @@ impl PostAggregator {
 }
 
 #[derive(Debug)]
-struct NonNumericConstant {}
+pub struct NonNumericConstant {}
 
 impl Display for NonNumericConstant {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {

@@ -42,7 +42,7 @@ pub enum DimensionSpec {
 }
 
 impl DimensionSpec {
-    fn lookup(
+    pub fn lookup(
         dimension: &str,
         output_name: &str,
         retain_missing_value: Option<bool>,

@@ -13,7 +13,7 @@ pub struct TimeBoundary {
 }
 
 impl TimeBoundary {
-    fn new(data_source: DataSource) -> Self {
+    pub fn new(data_source: DataSource) -> Self {
         Self {
             query_type: "timeBoundary".into(),
             data_source,
@@ -24,22 +24,22 @@ impl TimeBoundary {
         }
     }
 
-    fn bound(&mut self, bound: &str) -> &mut Self {
+    pub fn bound(&mut self, bound: &str) -> &mut Self {
         self.bound = Some(bound.into());
         self
     }
 
-    fn filter(&mut self, filter: Filter) -> &mut Self {
+    pub fn filter(&mut self, filter: Filter) -> &mut Self {
         self.filter = Some(filter);
         self
     }
 
-    fn virtual_columns(&mut self, virtual_columns: &[VirtaulColumn]) -> &mut Self {
+    pub fn virtual_columns(&mut self, virtual_columns: &[VirtaulColumn]) -> &mut Self {
         self.virtual_columns = Some(virtual_columns.to_vec());
         self
     }
 
-    fn context(&mut self, context: Context) -> &mut Self {
+    pub fn context(&mut self, context: Context) -> &mut Self {
         self.context = Some(context);
         self
     }

@@ -21,7 +21,7 @@ pub struct Scan {
 }
 
 impl Scan {
-    fn new(data_source: DataSource, intervals: &[Interval]) -> Self {
+    pub fn new(data_source: DataSource, intervals: &[Interval]) -> Self {
         Self {
             query_type: "scan".into(),
             data_source,
@@ -39,52 +39,52 @@ impl Scan {
         }
     }
 
-    fn result_format(&mut self, result_format: String) -> &mut Self {
+    pub fn result_format(&mut self, result_format: String) -> &mut Self {
         self.result_format = Some(result_format);
         self
     }
 
-    fn filter(&mut self, filter: Filter) -> &mut Self {
+    pub fn filter(&mut self, filter: Filter) -> &mut Self {
         self.filter = Some(filter);
         self
     }
 
-    fn columns(&mut self, columns: &[String]) -> &mut Self {
+    pub fn columns(&mut self, columns: &[String]) -> &mut Self {
         self.columns = Some(columns.to_vec());
         self
     }
 
-    fn batch_size(&mut self, batch_size: usize) -> &mut Self {
+    pub fn batch_size(&mut self, batch_size: usize) -> &mut Self {
         self.batch_size = Some(batch_size);
         self
     }
 
-    fn limit(&mut self, limit: usize) -> &mut Self {
+    pub fn limit(&mut self, limit: usize) -> &mut Self {
         self.limit = Some(limit);
         self
     }
 
-    fn offset(&mut self, offset: usize) -> &mut Self {
+    pub fn offset(&mut self, offset: usize) -> &mut Self {
         self.offset = Some(offset);
         self
     }
 
-    fn order(&mut self, order: &str) -> &mut Self {
+    pub fn order(&mut self, order: &str) -> &mut Self {
         self.order = Some(order.into());
         self
     }
 
-    fn legacy(&mut self, legacy: bool) -> &mut Self {
+    pub fn legacy(&mut self, legacy: bool) -> &mut Self {
         self.legacy = Some(legacy);
         self
     }
 
-    fn virtual_columns(&mut self, virtual_columns: &[VirtaulColumn]) -> &mut Self {
+    pub fn virtual_columns(&mut self, virtual_columns: &[VirtaulColumn]) -> &mut Self {
         self.virtual_columns = Some(virtual_columns.to_vec());
         self
     }
 
-    fn context(&mut self, context: Context) -> &mut Self {
+    pub fn context(&mut self, context: Context) -> &mut Self {
         self.context = Some(context);
         self
     }

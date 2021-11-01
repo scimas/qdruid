@@ -19,7 +19,7 @@ pub struct Search {
 }
 
 impl Search {
-    fn new(data_source: DataSource, intervals: &[Interval], query: SearchQuerySpec) -> Self {
+    pub fn new(data_source: DataSource, intervals: &[Interval], query: SearchQuerySpec) -> Self {
         Self {
             query_type: "search".into(),
             data_source,
@@ -35,37 +35,37 @@ impl Search {
         }
     }
 
-    fn granularity(&mut self, granularity: Granularity) -> &mut Self {
+    pub fn granularity(&mut self, granularity: Granularity) -> &mut Self {
         self.granularity = Some(granularity);
         self
     }
 
-    fn filter(&mut self, filter: Filter) -> &mut Self {
+    pub fn filter(&mut self, filter: Filter) -> &mut Self {
         self.filter = Some(filter);
         self
     }
 
-    fn limit(&mut self, limit: usize) -> &mut Self {
+    pub fn limit(&mut self, limit: usize) -> &mut Self {
         self.limit = Some(limit);
         self
     }
 
-    fn search_dimensions(&mut self, search_dimensions: &[String]) -> &mut Self {
+    pub fn search_dimensions(&mut self, search_dimensions: &[String]) -> &mut Self {
         self.search_dimensions = Some(search_dimensions.to_vec());
         self
     }
 
-    fn sort(&mut self, sort: &str) -> &mut Self {
+    pub fn sort(&mut self, sort: &str) -> &mut Self {
         self.sort = Some(sort.into());
         self
     }
 
-    fn virtual_columns(&mut self, virtual_columns: &[VirtaulColumn]) -> &mut Self {
+    pub fn virtual_columns(&mut self, virtual_columns: &[VirtaulColumn]) -> &mut Self {
         self.virtual_columns = Some(virtual_columns.to_vec());
         self
     }
 
-    fn context(&mut self, context: Context) -> &mut Self {
+    pub fn context(&mut self, context: Context) -> &mut Self {
         self.context = Some(context);
         self
     }

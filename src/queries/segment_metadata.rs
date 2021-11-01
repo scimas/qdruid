@@ -17,7 +17,7 @@ pub struct SegmentMetadata {
 }
 
 impl SegmentMetadata {
-    fn new(data_source: DataSource) -> Self {
+    pub fn new(data_source: DataSource) -> Self {
         Self {
             query_type: "segmentMetadata".into(),
             data_source,
@@ -31,37 +31,37 @@ impl SegmentMetadata {
         }
     }
 
-    fn intervals(&mut self, intervals: &[Interval]) -> &mut Self {
+    pub fn intervals(&mut self, intervals: &[Interval]) -> &mut Self {
         self.intervals = Some(intervals.to_vec());
         self
     }
 
-    fn to_include(&mut self, to_include: ToInclude) -> &mut Self {
+    pub fn to_include(&mut self, to_include: ToInclude) -> &mut Self {
         self.to_include = Some(to_include);
         self
     }
 
-    fn merge(&mut self, merge: bool) -> &mut Self {
+    pub fn merge(&mut self, merge: bool) -> &mut Self {
         self.merge = Some(merge);
         self
     }
 
-    fn analysis_types(&mut self, analysis_types: &[String]) -> &mut Self {
+    pub fn analysis_types(&mut self, analysis_types: &[String]) -> &mut Self {
         self.analysis_types = Some(analysis_types.to_vec());
         self
     }
 
-    fn lenient_aggregator_merge(&mut self, lenient_aggregator_merge: bool) -> &mut Self {
+    pub fn lenient_aggregator_merge(&mut self, lenient_aggregator_merge: bool) -> &mut Self {
         self.lenient_aggregator_merge = Some(lenient_aggregator_merge);
         self
     }
 
-    fn virtual_columns(&mut self, virtual_columns: &[VirtaulColumn]) -> &mut Self {
+    pub fn virtual_columns(&mut self, virtual_columns: &[VirtaulColumn]) -> &mut Self {
         self.virtual_columns = Some(virtual_columns.to_vec());
         self
     }
 
-    fn context(&mut self, context: Context) -> &mut Self {
+    pub fn context(&mut self, context: Context) -> &mut Self {
         self.context = Some(context);
         self
     }

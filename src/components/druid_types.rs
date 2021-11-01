@@ -7,19 +7,19 @@ pub enum DruidNativeType {
 }
 
 impl DruidNativeType {
-    fn string<T: Into<String>>(s: T) -> Self {
+    pub fn string<T: Into<String>>(s: T) -> Self {
         Self::String(s.into())
     }
 
-    fn double<T: Into<f64>>(d: T) -> Self {
+    pub fn double<T: Into<f64>>(d: T) -> Self {
         Self::Double(d.into())
     }
 
-    fn float<T: Into<f32>>(f: T) -> Self {
+    pub fn float<T: Into<f32>>(f: T) -> Self {
         Self::Float(f.into())
     }
 
-    fn long<T: Into<i64>>(l: T) -> Self {
+    pub fn long<T: Into<i64>>(l: T) -> Self {
         Self::Long(l.into())
     }
 }
@@ -42,55 +42,55 @@ pub enum DruidSqlType {
 }
 
 impl DruidSqlType {
-    fn char<T: Into<char>>(c: T) -> Self {
+    pub fn char<T: Into<char>>(c: T) -> Self {
         Self::Char(c.into())
     }
 
-    fn varchar<T: Into<String>>(s: T) -> Self {
+    pub fn varchar<T: Into<String>>(s: T) -> Self {
         Self::Varchar(s.into())
     }
 
-    fn decimal<T: Into<f64>>(d: T) -> Self {
+    pub fn decimal<T: Into<f64>>(d: T) -> Self {
         Self::Decimal(d.into())
     }
 
-    fn float<T: Into<f32>>(d: T) -> Self {
+    pub fn float<T: Into<f32>>(d: T) -> Self {
         Self::Float(d.into())
     }
 
-    fn real<T: Into<f64>>(d: T) -> Self {
+    pub fn real<T: Into<f64>>(d: T) -> Self {
         Self::Real(d.into())
     }
 
-    fn double<T: Into<f64>>(d: T) -> Self {
+    pub fn double<T: Into<f64>>(d: T) -> Self {
         Self::Double(d.into())
     }
 
-    fn boolean<T: Into<bool>>(b: T) -> Self {
+    pub fn boolean<T: Into<bool>>(b: T) -> Self {
         Self::Boolean(b.into())
     }
 
-    fn tinyint<T: Into<i64>>(d: T) -> Self {
+    pub fn tinyint<T: Into<i64>>(d: T) -> Self {
         Self::Tinyint(d.into())
     }
 
-    fn smallint<T: Into<i64>>(d: T) -> Self {
+    pub fn smallint<T: Into<i64>>(d: T) -> Self {
         Self::Smallint(d.into())
     }
 
-    fn integer<T: Into<i64>>(d: T) -> Self {
+    pub fn integer<T: Into<i64>>(d: T) -> Self {
         Self::Integer(d.into())
     }
 
-    fn bigint<T: Into<i64>>(d: T) -> Self {
+    pub fn bigint<T: Into<i64>>(d: T) -> Self {
         Self::Bigint(d.into())
     }
 
-    fn timestamp<T: Into<String>>(d: T) -> Self {
+    pub fn timestamp<T: Into<String>>(d: T) -> Self {
         Self::Timestamp(d.into())
     }
 
-    fn date<T: Into<String>>(d: T) -> Self {
+    pub fn date<T: Into<String>>(d: T) -> Self {
         Self::Date(d.into())
     }
 }

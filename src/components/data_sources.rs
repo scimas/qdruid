@@ -29,7 +29,7 @@ pub enum DataSource {
 }
 
 impl DataSource {
-    fn datasource_type(&self) -> String {
+    pub fn datasource_type(&self) -> String {
         match self {
             DataSource::Table { .. } => "table",
             DataSource::Lookup { .. } => "lookup",
@@ -41,34 +41,34 @@ impl DataSource {
         .into()
     }
 
-    fn table(name: &str) -> Self {
+    pub fn table(name: &str) -> Self {
         Self::Table { name: name.into() }
     }
 
-    fn lookup(lookup: &str) -> Self {
+    pub fn lookup(lookup: &str) -> Self {
         Self::Lookup {
             lookup: lookup.into(),
         }
     }
 
-    fn union(data_sources: &[String]) -> Self {
+    pub fn union(data_sources: &[String]) -> Self {
         Self::Union {
             data_sources: data_sources.to_vec(),
         }
     }
 
-    fn inline(column_names: &[String], rows: Vec<Vec<DruidNativeType>>) -> Self {
+    pub fn inline(column_names: &[String], rows: Vec<Vec<DruidNativeType>>) -> Self {
         Self::Inline {
             column_names: column_names.to_vec(),
             rows,
         }
     }
 
-    fn query(q: Query) -> Self {
+    pub fn query(q: Query) -> Self {
         Self::Query(Box::new(q))
     }
 
-    fn join(
+    pub fn join(
         left: DataSource,
         right: DataSource,
         right_prefix: &str,

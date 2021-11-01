@@ -39,176 +39,176 @@ pub struct Context {
 }
 
 impl Context {
-    fn new() -> Self {
+    pub fn new() -> Self {
         Default::default()
     }
 
-    fn timeout(&mut self, t: DruidNativeType) -> &mut Self {
+    pub fn timeout(&mut self, t: DruidNativeType) -> &mut Self {
         self.timeout = Some(t);
         self
     }
 
-    fn priority(&mut self, p: DruidNativeType) -> &mut Self {
+    pub fn priority(&mut self, p: DruidNativeType) -> &mut Self {
         self.priority = Some(p);
         self
     }
 
-    fn lane(&mut self, l: DruidNativeType) -> &mut Self {
+    pub fn lane(&mut self, l: DruidNativeType) -> &mut Self {
         self.lane = Some(l);
         self
     }
 
-    fn query_id(&mut self, qid: DruidNativeType) -> &mut Self {
+    pub fn query_id(&mut self, qid: DruidNativeType) -> &mut Self {
         self.query_id = Some(qid);
         self
     }
 
-    fn broker_service(&mut self, bs: DruidNativeType) -> &mut Self {
+    pub fn broker_service(&mut self, bs: DruidNativeType) -> &mut Self {
         self.broker_service = Some(bs);
         self
     }
 
-    fn use_cache(&mut self, flag: bool) -> &mut Self {
+    pub fn use_cache(&mut self, flag: bool) -> &mut Self {
         self.use_cache = Some(flag);
         self
     }
 
-    fn populate_cache(&mut self, flag: bool) -> &mut Self {
+    pub fn populate_cache(&mut self, flag: bool) -> &mut Self {
         self.populate_cache = Some(flag);
         self
     }
 
-    fn use_result_level_cache(&mut self, flag: bool) -> &mut Self {
+    pub fn use_result_level_cache(&mut self, flag: bool) -> &mut Self {
         self.use_result_level_cache = Some(flag);
         self
     }
 
-    fn populate_result_level_cache(&mut self, flag: bool) -> &mut Self {
+    pub fn populate_result_level_cache(&mut self, flag: bool) -> &mut Self {
         self.populate_result_level_cache = Some(flag);
         self
     }
 
-    fn by_segment(&mut self, flag: bool) -> &mut Self {
+    pub fn by_segment(&mut self, flag: bool) -> &mut Self {
         self.by_segment = Some(flag);
         self
     }
 
-    fn finalize(&mut self, flag: bool) -> &mut Self {
+    pub fn finalize(&mut self, flag: bool) -> &mut Self {
         self.finalize = Some(flag);
         self
     }
 
-    fn max_scatter_gather_bytes(&mut self, msgb: DruidNativeType) -> &mut Self {
+    pub fn max_scatter_gather_bytes(&mut self, msgb: DruidNativeType) -> &mut Self {
         self.max_scatter_gather_bytes = Some(msgb);
         self
     }
 
-    fn max_queued_bytes(&mut self, mqb: DruidNativeType) -> &mut Self {
+    pub fn max_queued_bytes(&mut self, mqb: DruidNativeType) -> &mut Self {
         self.max_queued_bytes = Some(mqb);
         self
     }
 
-    fn serialize_date_time_as_long(&mut self, flag: bool) -> &mut Self {
+    pub fn serialize_date_time_as_long(&mut self, flag: bool) -> &mut Self {
         self.serialize_date_time_as_long = Some(flag);
         self
     }
 
-    fn serialize_date_time_as_long_inner(&mut self, flag: bool) -> &mut Self {
+    pub fn serialize_date_time_as_long_inner(&mut self, flag: bool) -> &mut Self {
         self.serialize_date_time_as_long_inner = Some(flag);
         self
     }
 
-    fn enable_parallel_merge(&mut self, flag: bool) -> &mut Self {
+    pub fn enable_parallel_merge(&mut self, flag: bool) -> &mut Self {
         self.enable_parallel_merge = Some(flag);
         self
     }
 
-    fn parallel_merge_parallelism(&mut self, pmp: DruidNativeType) -> &mut Self {
+    pub fn parallel_merge_parallelism(&mut self, pmp: DruidNativeType) -> &mut Self {
         self.parallel_merge_parallelism = Some(pmp);
         self
     }
 
-    fn parallel_merge_initial_yield_rows(&mut self, pmiyr: DruidNativeType) -> &mut Self {
+    pub fn parallel_merge_initial_yield_rows(&mut self, pmiyr: DruidNativeType) -> &mut Self {
         self.parallel_merge_initial_yield_rows = Some(pmiyr);
         self
     }
 
-    fn parallel_merge_small_batch_rows(&mut self, pmsbr: DruidNativeType) -> &mut Self {
+    pub fn parallel_merge_small_batch_rows(&mut self, pmsbr: DruidNativeType) -> &mut Self {
         self.parallel_merge_small_batch_rows = Some(pmsbr);
         self
     }
 
-    fn use_filter_c_n_f(&mut self, flag: bool) -> &mut Self {
+    pub fn use_filter_c_n_f(&mut self, flag: bool) -> &mut Self {
         self.use_filter_c_n_f = Some(flag);
         self
     }
 
-    fn secondary_partition_pruning(&mut self, flag: bool) -> &mut Self {
+    pub fn secondary_partition_pruning(&mut self, flag: bool) -> &mut Self {
         self.secondary_partition_pruning = Some(flag);
         self
     }
 
-    fn enable_join_left_table_scan_direct(&mut self, flag: bool) -> &mut Self {
+    pub fn enable_join_left_table_scan_direct(&mut self, flag: bool) -> &mut Self {
         self.enable_join_left_table_scan_direct = Some(flag);
         self
     }
 
-    fn debug(&mut self, flag: bool) -> &mut Self {
+    pub fn debug(&mut self, flag: bool) -> &mut Self {
         self.debug = Some(flag);
         self
     }
 
-    fn min_ton_n_threshold(&mut self, mtnt: DruidNativeType) -> &mut Self {
+    pub fn min_ton_n_threshold(&mut self, mtnt: DruidNativeType) -> &mut Self {
         self.min_ton_n_threshold = Some(mtnt);
         self
     }
 
-    fn skip_empty_buckets(&mut self, flag: bool) -> &mut Self {
+    pub fn skip_empty_buckets(&mut self, flag: bool) -> &mut Self {
         self.skip_empty_buckets = Some(flag);
         self
     }
 
-    fn vectorize(&mut self, flag: bool) -> &mut Self {
+    pub fn vectorize(&mut self, flag: bool) -> &mut Self {
         self.vectorize = Some(flag);
         self
     }
 
-    fn vector_size(&mut self, vs: DruidNativeType) -> &mut Self {
+    pub fn vector_size(&mut self, vs: DruidNativeType) -> &mut Self {
         self.vector_size = Some(vs);
         self
     }
 
-    fn vectorize_virtual_columns(&mut self, flag: bool) -> &mut Self {
+    pub fn vectorize_virtual_columns(&mut self, flag: bool) -> &mut Self {
         self.vectorize_virtual_columns = Some(flag);
         self
     }
 
-    fn sql_query_id(&mut self, sqid: &str) -> &mut Self {
+    pub fn sql_query_id(&mut self, sqid: &str) -> &mut Self {
         self.sql_query_id = Some(sqid.into());
         self
     }
 
-    fn sql_time_zone(&mut self, stz: &str) -> &mut Self {
+    pub fn sql_time_zone(&mut self, stz: &str) -> &mut Self {
         self.sql_time_zone = Some(stz.into());
         self
     }
 
-    fn sql_stringify_arrays(&mut self, flag: bool) -> &mut Self {
+    pub fn sql_stringify_arrays(&mut self, flag: bool) -> &mut Self {
         self.sql_stringify_arrays = Some(flag);
         self
     }
 
-    fn use_approximate_count_distinct(&mut self, flag: bool) -> &mut Self {
+    pub fn use_approximate_count_distinct(&mut self, flag: bool) -> &mut Self {
         self.use_approximate_count_distinct = Some(flag);
         self
     }
 
-    fn use_grouping_set_for_exact_distinct(&mut self, flag: bool) -> &mut Self {
+    pub fn use_grouping_set_for_exact_distinct(&mut self, flag: bool) -> &mut Self {
         self.use_grouping_set_for_exact_distinct = Some(flag);
         self
     }
 
-    fn use_approximate_top_n(&mut self, flag: bool) -> &mut Self {
+    pub fn use_approximate_top_n(&mut self, flag: bool) -> &mut Self {
         self.use_approximate_top_n = Some(flag);
         self
     }
