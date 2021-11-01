@@ -17,10 +17,11 @@ pub use queries::Query;
 
 pub use components::aggregations::Aggregator;
 pub use components::context::Context;
+pub use components::data_sources::DataSource;
 pub use components::dimension_specs::DimensionSpec;
 pub use components::druid_types::{DruidNativeType, DruidSqlType};
 pub use components::extraction_functions::ExtractionFunction;
-pub use components::filters::Filter;
+pub use components::filters::{Bound, Filter};
 pub use components::granularities::Granularity;
 pub use components::having_specs::HavingSpec;
 pub use components::intervals::Interval;
