@@ -1,5 +1,5 @@
 use super::{
-    druid_types::DruidType,
+    druid_types::DruidNativeType,
     extraction_functions::{ExtractionFunction, LookupError},
     lookups::Lookup,
 };
@@ -34,7 +34,7 @@ pub enum DimensionSpec {
         dimension: String,
         output_name: String,
         retain_missing_value: Option<bool>, // retain = true and replace = not null is illegal
-        replace_missing_value_with: Option<DruidType>,
+        replace_missing_value_with: Option<DruidNativeType>,
         lookup: Option<Lookup>, // must be of type Map
         optimize: Option<bool>,
         name: Option<String>,
@@ -46,7 +46,7 @@ impl DimensionSpec {
         dimension: &str,
         output_name: &str,
         retain_missing_value: Option<bool>,
-        replace_missing_value_with: Option<DruidType>,
+        replace_missing_value_with: Option<DruidNativeType>,
         lookup: Option<Lookup>,
         optimize: Option<bool>,
         name: Option<String>,
@@ -54,7 +54,7 @@ impl DimensionSpec {
         if let Some(true) = retain_missing_value {
             if let Some(s) = &replace_missing_value_with {
                 match s {
-                    DruidType::String(s) => {
+                    DruidNativeType::String(s) => {
                         if s.len() != 0 {
                             return Err(LookupError::RetainingReplacingSimultaneously);
                         }
@@ -83,7 +83,7 @@ mod tests {
     use std::error::Error;
 
     use crate::components::{
-        druid_types::DruidType, extraction_functions::LookupError, lookups::Lookup,
+        druid_types::DruidNativeType, extraction_functions::LookupError, lookups::Lookup,
     };
 
     use super::DimensionSpec;
@@ -94,7 +94,7 @@ mod tests {
             "dim",
             "out_name",
             Some(true),
-            Some(DruidType::String("a".into())),
+            Some(DruidNativeType::String("a".into())),
             None,
             None,
             None,
@@ -111,7 +111,7 @@ mod tests {
             "dim",
             "out_name",
             Some(true),
-            Some(DruidType::Long(2)),
+            Some(DruidNativeType::Long(2)),
             None,
             None,
             None,
@@ -128,7 +128,7 @@ mod tests {
             "dim",
             "out_name",
             Some(true),
-            Some(DruidType::String("".into())),
+            Some(DruidNativeType::String("".into())),
             None,
             None,
             None,

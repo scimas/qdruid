@@ -1,35 +1,41 @@
-use super::druid_types::DruidType;
+use super::druid_types::DruidNativeType;
 
 #[derive(Debug, Default, Clone)]
 pub struct Context {
-    timeout: Option<DruidType>,
-    priority: Option<DruidType>,
-    lane: Option<DruidType>,
-    query_id: Option<DruidType>,
-    broker_service: Option<DruidType>,
+    timeout: Option<DruidNativeType>,
+    priority: Option<DruidNativeType>,
+    lane: Option<DruidNativeType>,
+    query_id: Option<DruidNativeType>,
+    broker_service: Option<DruidNativeType>,
     use_cache: Option<bool>,
     populate_cache: Option<bool>,
     use_result_level_cache: Option<bool>,
     populate_result_level_cache: Option<bool>,
     by_segment: Option<bool>,
     finalize: Option<bool>,
-    max_scatter_gather_bytes: Option<DruidType>,
-    max_queued_bytes: Option<DruidType>,
+    max_scatter_gather_bytes: Option<DruidNativeType>,
+    max_queued_bytes: Option<DruidNativeType>,
     serialize_date_time_as_long: Option<bool>,
     serialize_date_time_as_long_inner: Option<bool>,
     enable_parallel_merge: Option<bool>,
-    parallel_merge_parallelism: Option<DruidType>,
-    parallel_merge_initial_yield_rows: Option<DruidType>,
-    parallel_merge_small_batch_rows: Option<DruidType>,
+    parallel_merge_parallelism: Option<DruidNativeType>,
+    parallel_merge_initial_yield_rows: Option<DruidNativeType>,
+    parallel_merge_small_batch_rows: Option<DruidNativeType>,
     use_filter_c_n_f: Option<bool>,
     secondary_partition_pruning: Option<bool>,
     enable_join_left_table_scan_direct: Option<bool>,
     debug: Option<bool>,
-    min_ton_n_threshold: Option<DruidType>,
+    min_ton_n_threshold: Option<DruidNativeType>,
     skip_empty_buckets: Option<bool>,
     vectorize: Option<bool>,
-    vector_size: Option<DruidType>,
+    vector_size: Option<DruidNativeType>,
     vectorize_virtual_columns: Option<bool>,
+    sql_query_id: Option<String>,
+    sql_time_zone: Option<String>,
+    sql_stringify_arrays: Option<bool>,
+    use_approximate_count_distinct: Option<bool>,
+    use_grouping_set_for_exact_distinct: Option<bool>,
+    use_approximate_top_n: Option<bool>,
 }
 
 impl Context {
@@ -37,27 +43,27 @@ impl Context {
         Default::default()
     }
 
-    fn timeout(&mut self, t: DruidType) -> &mut Self {
+    fn timeout(&mut self, t: DruidNativeType) -> &mut Self {
         self.timeout = Some(t);
         self
     }
 
-    fn priority(&mut self, p: DruidType) -> &mut Self {
+    fn priority(&mut self, p: DruidNativeType) -> &mut Self {
         self.priority = Some(p);
         self
     }
 
-    fn lane(&mut self, l: DruidType) -> &mut Self {
+    fn lane(&mut self, l: DruidNativeType) -> &mut Self {
         self.lane = Some(l);
         self
     }
 
-    fn query_id(&mut self, qid: DruidType) -> &mut Self {
+    fn query_id(&mut self, qid: DruidNativeType) -> &mut Self {
         self.query_id = Some(qid);
         self
     }
 
-    fn broker_service(&mut self, bs: DruidType) -> &mut Self {
+    fn broker_service(&mut self, bs: DruidNativeType) -> &mut Self {
         self.broker_service = Some(bs);
         self
     }
@@ -92,12 +98,12 @@ impl Context {
         self
     }
 
-    fn max_scatter_gather_bytes(&mut self, msgb: DruidType) -> &mut Self {
+    fn max_scatter_gather_bytes(&mut self, msgb: DruidNativeType) -> &mut Self {
         self.max_scatter_gather_bytes = Some(msgb);
         self
     }
 
-    fn max_queued_bytes(&mut self, mqb: DruidType) -> &mut Self {
+    fn max_queued_bytes(&mut self, mqb: DruidNativeType) -> &mut Self {
         self.max_queued_bytes = Some(mqb);
         self
     }
@@ -117,17 +123,17 @@ impl Context {
         self
     }
 
-    fn parallel_merge_parallelism(&mut self, pmp: DruidType) -> &mut Self {
+    fn parallel_merge_parallelism(&mut self, pmp: DruidNativeType) -> &mut Self {
         self.parallel_merge_parallelism = Some(pmp);
         self
     }
 
-    fn parallel_merge_initial_yield_rows(&mut self, pmiyr: DruidType) -> &mut Self {
+    fn parallel_merge_initial_yield_rows(&mut self, pmiyr: DruidNativeType) -> &mut Self {
         self.parallel_merge_initial_yield_rows = Some(pmiyr);
         self
     }
 
-    fn parallel_merge_small_batch_rows(&mut self, pmsbr: DruidType) -> &mut Self {
+    fn parallel_merge_small_batch_rows(&mut self, pmsbr: DruidNativeType) -> &mut Self {
         self.parallel_merge_small_batch_rows = Some(pmsbr);
         self
     }
@@ -152,7 +158,7 @@ impl Context {
         self
     }
 
-    fn min_ton_n_threshold(&mut self, mtnt: DruidType) -> &mut Self {
+    fn min_ton_n_threshold(&mut self, mtnt: DruidNativeType) -> &mut Self {
         self.min_ton_n_threshold = Some(mtnt);
         self
     }
@@ -167,13 +173,43 @@ impl Context {
         self
     }
 
-    fn vector_size(&mut self, vs: DruidType) -> &mut Self {
+    fn vector_size(&mut self, vs: DruidNativeType) -> &mut Self {
         self.vector_size = Some(vs);
         self
     }
 
     fn vectorize_virtual_columns(&mut self, flag: bool) -> &mut Self {
         self.vectorize_virtual_columns = Some(flag);
+        self
+    }
+
+    fn sql_query_id(&mut self, sqid: &str) -> &mut Self {
+        self.sql_query_id = Some(sqid.into());
+        self
+    }
+
+    fn sql_time_zone(&mut self, stz: &str) -> &mut Self {
+        self.sql_time_zone = Some(stz.into());
+        self
+    }
+
+    fn sql_stringify_arrays(&mut self, flag: bool) -> &mut Self {
+        self.sql_stringify_arrays = Some(flag);
+        self
+    }
+
+    fn use_approximate_count_distinct(&mut self, flag: bool) -> &mut Self {
+        self.use_approximate_count_distinct = Some(flag);
+        self
+    }
+
+    fn use_grouping_set_for_exact_distinct(&mut self, flag: bool) -> &mut Self {
+        self.use_grouping_set_for_exact_distinct = Some(flag);
+        self
+    }
+
+    fn use_approximate_top_n(&mut self, flag: bool) -> &mut Self {
+        self.use_approximate_top_n = Some(flag);
         self
     }
 }

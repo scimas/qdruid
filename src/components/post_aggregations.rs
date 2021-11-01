@@ -1,6 +1,6 @@
 use std::{error::Error, fmt::Display};
 
-use super::druid_types::DruidType;
+use super::druid_types::DruidNativeType;
 
 #[derive(Debug, Clone)]
 pub enum PostAggregator {
@@ -20,7 +20,7 @@ pub enum PostAggregator {
     },
     Constant {
         name: String,
-        value: DruidType, // must be numeric
+        value: DruidNativeType, // must be numeric
     },
     LongGreatest {
         name: String,
@@ -50,9 +50,9 @@ pub enum PostAggregator {
 }
 
 impl PostAggregator {
-    fn constant(name: &str, value: DruidType) -> Result<Self, NonNumericConstant> {
+    fn constant(name: &str, value: DruidNativeType) -> Result<Self, NonNumericConstant> {
         match value {
-            DruidType::Long(_) | DruidType::Double(_) | DruidType::Float(_) => Ok(Self::Constant {
+            DruidNativeType::Long(_) | DruidNativeType::Double(_) | DruidNativeType::Float(_) => Ok(Self::Constant {
                 name: name.into(),
                 value,
             }),
@@ -76,13 +76,13 @@ impl Error for NonNumericConstant {}
 mod tests {
     use std::error::Error;
 
-    use crate::components::druid_types::DruidType;
+    use crate::components::druid_types::DruidNativeType;
 
     use super::{NonNumericConstant, PostAggregator};
 
     #[test]
     fn contant_must_be_numeric() -> Result<(), Box<dyn Error>> {
-        match PostAggregator::constant("name", DruidType::String("heh".into())) {
+        match PostAggregator::constant("name", DruidNativeType::String("heh".into())) {
             Err(NonNumericConstant {}) => Ok(()),
             _ => Err("did not receive the expected error".into()),
         }

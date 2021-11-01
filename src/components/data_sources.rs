@@ -1,4 +1,4 @@
-use super::druid_types::DruidType;
+use super::druid_types::DruidNativeType;
 use crate::queries::Query;
 use std::error::Error;
 use std::fmt::Display;
@@ -16,7 +16,7 @@ pub enum DataSource {
     },
     Inline {
         column_names: Vec<String>,
-        rows: Vec<Vec<DruidType>>,
+        rows: Vec<Vec<DruidNativeType>>,
     },
     Query(Box<Query>),
     Join {
@@ -57,7 +57,7 @@ impl DataSource {
         }
     }
 
-    fn inline(column_names: &[String], rows: Vec<Vec<DruidType>>) -> Self {
+    fn inline(column_names: &[String], rows: Vec<Vec<DruidNativeType>>) -> Self {
         Self::Inline {
             column_names: column_names.to_vec(),
             rows,

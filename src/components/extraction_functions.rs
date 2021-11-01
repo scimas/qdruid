@@ -1,5 +1,5 @@
 use super::{
-    druid_types::DruidType, granularities::Granularity, lookups::Lookup,
+    druid_types::DruidNativeType, granularities::Granularity, lookups::Lookup,
     search_query_specs::SearchQuerySpec,
 };
 use std::{error::Error, fmt::Display};
@@ -10,7 +10,7 @@ pub enum ExtractionFunction {
         expr: String,
         index: Option<usize>,
         replace_missing_value: Option<bool>,
-        replace_missing_value_with: Option<DruidType>,
+        replace_missing_value_with: Option<DruidNativeType>,
     },
     Partial {
         expr: String,
@@ -42,14 +42,14 @@ pub enum ExtractionFunction {
     RegisteredLookup {
         lookup: String,
         retain_missing_value: Option<bool>, // retain = true and replace = not null is illegal
-        replace_missing_value_with: Option<DruidType>,
+        replace_missing_value_with: Option<DruidNativeType>,
         injective: Option<bool>,
         optimize: Option<bool>,
     },
     Lookup {
         lookup: Lookup,                     // must be of type Map
         retain_missing_value: Option<bool>, // retain = true and replace = not null is illegal
-        replace_missing_value_with: Option<DruidType>,
+        replace_missing_value_with: Option<DruidNativeType>,
         injective: Option<bool>,
         optimize: Option<bool>,
     },
@@ -76,14 +76,14 @@ impl ExtractionFunction {
     fn registered_lookup(
         lookup: &str,
         retain_missing_value: Option<bool>,
-        replace_missing_value_with: Option<DruidType>,
+        replace_missing_value_with: Option<DruidNativeType>,
         injective: Option<bool>,
         optimize: Option<bool>,
     ) -> Result<Self, LookupError> {
         if let Some(true) = retain_missing_value {
             if let Some(s) = &replace_missing_value_with {
                 match s {
-                    DruidType::String(s) => {
+                    DruidNativeType::String(s) => {
                         if s.len() != 0 {
                             return Err(LookupError::RetainingReplacingSimultaneously);
                         }
@@ -104,14 +104,14 @@ impl ExtractionFunction {
     fn lookup(
         lookup: Lookup,
         retain_missing_value: Option<bool>,
-        replace_missing_value_with: Option<DruidType>,
+        replace_missing_value_with: Option<DruidNativeType>,
         injective: Option<bool>,
         optimize: Option<bool>,
     ) -> Result<Self, LookupError> {
         if let Some(true) = retain_missing_value {
             if let Some(s) = &replace_missing_value_with {
                 match s {
-                    DruidType::String(s) => {
+                    DruidNativeType::String(s) => {
                         if s.len() != 0 {
                             return Err(LookupError::RetainingReplacingSimultaneously);
                         }
@@ -188,7 +188,7 @@ mod tests {
         use std::error::Error;
 
         use crate::components::{
-            druid_types::DruidType,
+            druid_types::DruidNativeType,
             extraction_functions::{ExtractionFunction, LookupError},
         };
 
@@ -197,7 +197,7 @@ mod tests {
             match ExtractionFunction::registered_lookup(
                 "lookup",
                 Some(true),
-                Some(DruidType::String("a".into())),
+                Some(DruidNativeType::String("a".into())),
                 None,
                 None,
             ) {
@@ -212,7 +212,7 @@ mod tests {
             match ExtractionFunction::registered_lookup(
                 "lookup",
                 Some(true),
-                Some(DruidType::Long(2)),
+                Some(DruidNativeType::Long(2)),
                 None,
                 None,
             ) {
@@ -227,7 +227,7 @@ mod tests {
             match ExtractionFunction::registered_lookup(
                 "lookup",
                 Some(true),
-                Some(DruidType::String("".into())),
+                Some(DruidNativeType::String("".into())),
                 None,
                 None,
             ) {

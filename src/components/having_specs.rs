@@ -1,4 +1,4 @@
-use super::{druid_types::DruidType, filters::Filter};
+use super::{druid_types::DruidNativeType, filters::Filter};
 
 #[derive(Debug, Clone)]
 pub enum HavingSpec {
@@ -7,19 +7,19 @@ pub enum HavingSpec {
     },
     EqualTo {
         aggregation: String,
-        value: DruidType,
+        value: DruidNativeType,
     },
     GreaterThan {
         aggregation: String,
-        value: DruidType,
+        value: DruidNativeType,
     },
     LessThan {
         aggregation: String,
-        value: DruidType,
+        value: DruidNativeType,
     },
     DimSelector {
         dimension: String,
-        value: DruidType,
+        value: DruidNativeType,
     },
     And {
         having_specs: Vec<HavingSpec>,
