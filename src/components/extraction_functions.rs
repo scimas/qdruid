@@ -73,8 +73,69 @@ pub enum ExtractionFunction {
 }
 
 impl ExtractionFunction {
+    pub fn regex(
+        expr: String,
+        index: Option<usize>,
+        replace_missing_value: Option<bool>,
+        replace_missing_value_with: Option<DruidNativeType>,
+    ) -> Self {
+        Self::Regex {
+            expr,
+            index,
+            replace_missing_value,
+            replace_missing_value_with,
+        }
+    }
+
+    pub fn partial(expr: String) -> Self {
+        Self::Partial { expr }
+    }
+
+    pub fn search_query(query: SearchQuerySpec) -> Self {
+        Self::SearchQuery { query }
+    }
+
+    pub fn substring(index: usize, length: Option<usize>) -> Self {
+        Self::Substring { index, length }
+    }
+
+    pub fn strlen() -> Self {
+        Self::Strlen {}
+    }
+
+    pub fn time_format(
+        format: Option<String>,
+        time_zone: Option<String>,
+        locale: Option<String>,
+        granularity: Option<Granularity>,
+        as_millis: Option<bool>,
+    ) -> Self {
+        Self::TimeFormat {
+            format,
+            time_zone,
+            locale,
+            granularity,
+            as_millis,
+        }
+    }
+
+    pub fn time(time_format: String, result_format: String, joda: bool) -> Self {
+        Self::Time {
+            time_format,
+            result_format,
+            joda,
+        }
+    }
+
+    pub fn javascript(function: String, injective: Option<bool>) -> Self {
+        Self::Javascript {
+            function,
+            injective,
+        }
+    }
+
     pub fn registered_lookup(
-        lookup: &str,
+        lookup: String,
         retain_missing_value: Option<bool>,
         replace_missing_value_with: Option<DruidNativeType>,
         injective: Option<bool>,
@@ -93,7 +154,7 @@ impl ExtractionFunction {
             }
         }
         Ok(Self::RegisteredLookup {
-            lookup: lookup.into(),
+            lookup,
             retain_missing_value,
             replace_missing_value_with,
             injective,
@@ -132,8 +193,14 @@ impl ExtractionFunction {
         }
     }
 
+    pub fn cascade(extraction_fns: Vec<ExtractionFunction>) -> Self {
+        Self::Cascade {
+            extraction_fns,
+        }
+    }
+
     pub fn string_format(
-        format: &str,
+        format: String,
         null_handling: Option<String>,
     ) -> Result<Self, NullHandlingError> {
         if let Some(s) = &null_handling {
@@ -142,9 +209,21 @@ impl ExtractionFunction {
             }
         }
         Ok(Self::StringFormat {
-            format: format.into(),
+            format,
             null_handling,
         })
+    }
+
+    pub fn upper(locale: Option<String>) -> Self {
+        Self::Upper { locale }
+    }
+
+    pub fn lower(locale: Option<String>) -> Self {
+        Self::Lower { locale }
+    }
+
+    pub fn bucket(size: Option<usize>, offset: Option<usize>) -> Self {
+        Self::Bucket { size, offset }
     }
 }
 
@@ -195,7 +274,7 @@ mod tests {
         #[test]
         fn retain_true_replace_some_string_fails() -> Result<(), Box<dyn Error>> {
             match ExtractionFunction::registered_lookup(
-                "lookup",
+                "lookup".to_owned(),
                 Some(true),
                 Some(DruidNativeType::String("a".into())),
                 None,
@@ -210,7 +289,7 @@ mod tests {
         #[test]
         fn retain_true_replace_some_fails() -> Result<(), Box<dyn Error>> {
             match ExtractionFunction::registered_lookup(
-                "lookup",
+                "lookup".to_owned(),
                 Some(true),
                 Some(DruidNativeType::Long(2)),
                 None,
@@ -225,7 +304,7 @@ mod tests {
         #[test]
         fn retain_true_replace_empty_string_succeeds() -> Result<(), Box<dyn Error>> {
             match ExtractionFunction::registered_lookup(
-                "lookup",
+                "lookup".to_owned(),
                 Some(true),
                 Some(DruidNativeType::String("".into())),
                 None,
@@ -240,7 +319,7 @@ mod tests {
 
     #[test]
     fn string_format_fails_on_unknown_values() -> Result<(), Box<dyn Error>> {
-        match ExtractionFunction::string_format("a", Some("non_existent_option".into())) {
+        match ExtractionFunction::string_format("a".to_owned(), Some("non_existent_option".into())) {
             Err(NullHandlingError {}) => Ok(()),
             _ => Err("did not receive the expected error".into()),
         }
