@@ -119,170 +119,107 @@ pub enum Aggregator {
 }
 
 impl Aggregator {
-    pub fn count(name: &str) -> Self {
-        Self::Count { name: name.into() }
+    pub fn count(name: String) -> Self {
+        Self::Count { name }
     }
 
-    pub fn long_sum(name: &str, field_name: &str) -> Self {
-        Self::LongSum {
-            name: name.into(),
-            field_name: field_name.into(),
-        }
+    pub fn long_sum(name: String, field_name: String) -> Self {
+        Self::LongSum { name, field_name }
     }
 
-    pub fn double_sum(name: &str, field_name: &str) -> Self {
-        Self::DoubleSum {
-            name: name.into(),
-            field_name: field_name.into(),
-        }
+    pub fn double_sum(name: String, field_name: String) -> Self {
+        Self::DoubleSum { name, field_name }
     }
 
-    pub fn float_sum(name: &str, field_name: &str) -> Self {
-        Self::FloatSum {
-            name: name.into(),
-            field_name: field_name.into(),
-        }
+    pub fn float_sum(name: String, field_name: String) -> Self {
+        Self::FloatSum { name, field_name }
     }
 
-    pub fn long_min(name: &str, field_name: &str) -> Self {
-        Self::LongMin {
-            name: name.into(),
-            field_name: field_name.into(),
-        }
+    pub fn long_min(name: String, field_name: String) -> Self {
+        Self::LongMin { name, field_name }
     }
 
-    pub fn double_min(name: &str, field_name: &str) -> Self {
-        Self::DoubleMin {
-            name: name.into(),
-            field_name: field_name.into(),
-        }
+    pub fn double_min(name: String, field_name: String) -> Self {
+        Self::DoubleMin { name, field_name }
     }
 
-    pub fn float_min(name: &str, field_name: &str) -> Self {
-        Self::FloatMin {
-            name: name.into(),
-            field_name: field_name.into(),
-        }
+    pub fn float_min(name: String, field_name: String) -> Self {
+        Self::FloatMin { name, field_name }
     }
 
-    pub fn long_max(name: &str, field_name: &str) -> Self {
-        Self::LongMax {
-            name: name.into(),
-            field_name: field_name.into(),
-        }
+    pub fn long_max(name: String, field_name: String) -> Self {
+        Self::LongMax { name, field_name }
     }
 
-    pub fn double_max(name: &str, field_name: &str) -> Self {
-        Self::DoubleMax {
-            name: name.into(),
-            field_name: field_name.into(),
-        }
+    pub fn double_max(name: String, field_name: String) -> Self {
+        Self::DoubleMax { name, field_name }
     }
 
-    pub fn float_max(name: &str, field_name: &str) -> Self {
-        Self::FloatMax {
-            name: name.into(),
-            field_name: field_name.into(),
-        }
+    pub fn float_max(name: String, field_name: String) -> Self {
+        Self::FloatMax { name, field_name }
     }
 
-    pub fn long_first(name: &str, field_name: &str) -> Self {
-        Self::LongFirst {
-            name: name.into(),
-            field_name: field_name.into(),
-        }
+    pub fn long_first(name: String, field_name: String) -> Self {
+        Self::LongFirst { name, field_name }
     }
 
-    pub fn double_first(name: &str, field_name: &str) -> Self {
-        Self::DoubleFirst {
-            name: name.into(),
-            field_name: field_name.into(),
-        }
+    pub fn double_first(name: String, field_name: String) -> Self {
+        Self::DoubleFirst { name, field_name }
     }
 
-    pub fn float_first(name: &str, field_name: &str) -> Self {
-        Self::FloatFirst {
-            name: name.into(),
-            field_name: field_name.into(),
-        }
+    pub fn float_first(name: String, field_name: String) -> Self {
+        Self::FloatFirst { name, field_name }
     }
 
-    pub fn string_first(name: &str, field_name: &str) -> Self {
-        Self::StringFirst {
-            name: name.into(),
-            field_name: field_name.into(),
-        }
+    pub fn string_first(name: String, field_name: String) -> Self {
+        Self::StringFirst { name, field_name }
     }
 
-    pub fn long_last(name: &str, field_name: &str) -> Self {
-        Self::LongLast {
-            name: name.into(),
-            field_name: field_name.into(),
-        }
+    pub fn long_last(name: String, field_name: String) -> Self {
+        Self::LongLast { name, field_name }
     }
 
-    pub fn double_last(name: &str, field_name: &str) -> Self {
-        Self::DoubleLast {
-            name: name.into(),
-            field_name: field_name.into(),
-        }
+    pub fn double_last(name: String, field_name: String) -> Self {
+        Self::DoubleLast { name, field_name }
     }
 
-    pub fn float_last(name: &str, field_name: &str) -> Self {
-        Self::FloatLast {
-            name: name.into(),
-            field_name: field_name.into(),
-        }
+    pub fn float_last(name: String, field_name: String) -> Self {
+        Self::FloatLast { name, field_name }
     }
 
-    pub fn string_last(name: &str, field_name: &str) -> Self {
-        Self::StringLast {
-            name: name.into(),
-            field_name: field_name.into(),
-        }
+    pub fn string_last(name: String, field_name: String) -> Self {
+        Self::StringLast { name, field_name }
     }
 
-    pub fn long_any(name: &str, field_name: &str) -> Self {
-        Self::LongAny {
-            name: name.into(),
-            field_name: field_name.into(),
-        }
+    pub fn long_any(name: String, field_name: String) -> Self {
+        Self::LongAny { name, field_name }
     }
 
-    pub fn double_any(name: &str, field_name: &str) -> Self {
-        Self::DoubleAny {
-            name: name.into(),
-            field_name: field_name.into(),
-        }
+    pub fn double_any(name: String, field_name: String) -> Self {
+        Self::DoubleAny { name, field_name }
     }
 
-    pub fn float_any(name: &str, field_name: &str) -> Self {
-        Self::FloatAny {
-            name: name.into(),
-            field_name: field_name.into(),
-        }
+    pub fn float_any(name: String, field_name: String) -> Self {
+        Self::FloatAny { name, field_name }
     }
 
-    pub fn string_any(name: &str, field_name: &str) -> Self {
-        Self::StringAny {
-            name: name.into(),
-            field_name: field_name.into(),
-        }
+    pub fn string_any(name: String, field_name: String) -> Self {
+        Self::StringAny { name, field_name }
     }
 
     pub fn javascript(
-        name: &str,
-        field_names: &[String],
-        fn_aggregate: &str,
-        fn_combine: &str,
-        fn_reset: &str,
+        name: String,
+        field_names: Vec<String>,
+        fn_aggregate: String,
+        fn_combine: String,
+        fn_reset: String,
     ) -> Self {
         Self::Javascript {
-            name: name.into(),
-            field_names: field_names.to_vec(),
-            fn_aggregate: fn_aggregate.into(),
-            fn_combine: fn_combine.into(),
-            fn_reset: fn_reset.into(),
+            name,
+            field_names,
+            fn_aggregate,
+            fn_combine,
+            fn_reset,
         }
     }
 
@@ -293,36 +230,33 @@ impl Aggregator {
         }
     }
 
-    pub fn grouping(name: &str, groupings: &[String]) -> Self {
-        Self::Grouping {
-            name: name.into(),
-            groupings: groupings.to_vec(),
-        }
+    pub fn grouping(name: String, groupings: Vec<String>) -> Self {
+        Self::Grouping { name, groupings }
     }
 
     pub fn cardinality(
-        name: &str,
-        fields: &[DimensionSpec],
+        name: String,
+        fields: Vec<DimensionSpec>,
         by_row: Option<bool>,
         round: Option<bool>,
     ) -> Self {
         Self::Cardinality {
-            name: name.into(),
-            fields: fields.to_vec(),
+            name,
+            fields,
             by_row,
             round,
         }
     }
 
     pub fn hyper_unique(
-        name: &str,
-        field_name: &str,
+        name: String,
+        field_name: String,
         is_input_hyper_unique: Option<bool>,
         round: Option<bool>,
     ) -> Self {
         Self::HyperUnique {
-            name: name.into(),
-            field_name: field_name.into(),
+            name,
+            field_name,
             is_input_hyper_unique,
             round,
         }
