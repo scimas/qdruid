@@ -120,9 +120,7 @@ pub enum Aggregator {
 
 impl Aggregator {
     pub fn count(name: &str) -> Self {
-        Self::Count {
-            name: name.into()
-        }
+        Self::Count { name: name.into() }
     }
 
     pub fn long_sum(name: &str, field_name: &str) -> Self {
@@ -272,7 +270,13 @@ impl Aggregator {
         }
     }
 
-    pub fn javascript(name: &str, field_names: &[String], fn_aggregate: &str, fn_combine: &str, fn_reset: &str) -> Self {
+    pub fn javascript(
+        name: &str,
+        field_names: &[String],
+        fn_aggregate: &str,
+        fn_combine: &str,
+        fn_reset: &str,
+    ) -> Self {
         Self::Javascript {
             name: name.into(),
             field_names: field_names.to_vec(),
@@ -296,7 +300,12 @@ impl Aggregator {
         }
     }
 
-    pub fn cardinality(name: &str, fields: &[DimensionSpec], by_row: Option<bool>, round: Option<bool>) -> Self {
+    pub fn cardinality(
+        name: &str,
+        fields: &[DimensionSpec],
+        by_row: Option<bool>,
+        round: Option<bool>,
+    ) -> Self {
         Self::Cardinality {
             name: name.into(),
             fields: fields.to_vec(),
@@ -305,12 +314,17 @@ impl Aggregator {
         }
     }
 
-    pub fn hyper_unique(name: &str, field_name: &str, is_input_hyper_unique: Option<bool>, round: Option<bool>) -> Self {
+    pub fn hyper_unique(
+        name: &str,
+        field_name: &str,
+        is_input_hyper_unique: Option<bool>,
+        round: Option<bool>,
+    ) -> Self {
         Self::HyperUnique {
             name: name.into(),
             field_name: field_name.into(),
             is_input_hyper_unique,
-            round
+            round,
         }
     }
 }

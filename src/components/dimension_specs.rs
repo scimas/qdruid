@@ -42,6 +42,54 @@ pub enum DimensionSpec {
 }
 
 impl DimensionSpec {
+    pub fn default(dimension: &str, output_name: &str, output_type: Option<String>) -> Self {
+        Self::Default {
+            dimension: dimension.into(),
+            output_name: output_name.into(),
+            output_type,
+        }
+    }
+
+    pub fn extraction(
+        dimension: &str,
+        output_name: &str,
+        extraction_fn: ExtractionFunction,
+        output_type: Option<String>,
+    ) -> Self {
+        Self::Extraction {
+            dimension: dimension.into(),
+            output_name: output_name.into(),
+            extraction_fn,
+            output_type,
+        }
+    }
+
+    pub fn list_filtered(
+        delegate: DimensionSpec,
+        values: &[String],
+        is_whitelist: Option<bool>,
+    ) -> Self {
+        Self::ListFiltered {
+            delegate: Box::new(delegate),
+            values: values.to_vec(),
+            is_whitelist,
+        }
+    }
+
+    pub fn regex_filtered(delegate: DimensionSpec, pattern: &str) -> Self {
+        Self::RegexFiltered {
+            delegate: Box::new(delegate),
+            pattern: pattern.into(),
+        }
+    }
+
+    pub fn prefix_filtered(delegate: DimensionSpec, prefix: &str) -> Self {
+        Self::PrefixFiltered {
+            delegate: Box::new(delegate),
+            prefix: prefix.into(),
+        }
+    }
+
     pub fn lookup(
         dimension: &str,
         output_name: &str,
