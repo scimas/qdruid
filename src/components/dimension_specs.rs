@@ -42,23 +42,23 @@ pub enum DimensionSpec {
 }
 
 impl DimensionSpec {
-    pub fn default(dimension: &str, output_name: &str, output_type: Option<String>) -> Self {
+    pub fn default(dimension: String, output_name: String, output_type: Option<String>) -> Self {
         Self::Default {
-            dimension: dimension.into(),
-            output_name: output_name.into(),
+            dimension,
+            output_name,
             output_type,
         }
     }
 
     pub fn extraction(
-        dimension: &str,
-        output_name: &str,
+        dimension: String,
+        output_name: String,
         extraction_fn: ExtractionFunction,
         output_type: Option<String>,
     ) -> Self {
         Self::Extraction {
-            dimension: dimension.into(),
-            output_name: output_name.into(),
+            dimension,
+            output_name,
             extraction_fn,
             output_type,
         }
@@ -66,33 +66,33 @@ impl DimensionSpec {
 
     pub fn list_filtered(
         delegate: DimensionSpec,
-        values: &[String],
+        values: Vec<String>,
         is_whitelist: Option<bool>,
     ) -> Self {
         Self::ListFiltered {
             delegate: Box::new(delegate),
-            values: values.to_vec(),
+            values,
             is_whitelist,
         }
     }
 
-    pub fn regex_filtered(delegate: DimensionSpec, pattern: &str) -> Self {
+    pub fn regex_filtered(delegate: DimensionSpec, pattern: String) -> Self {
         Self::RegexFiltered {
             delegate: Box::new(delegate),
-            pattern: pattern.into(),
+            pattern,
         }
     }
 
-    pub fn prefix_filtered(delegate: DimensionSpec, prefix: &str) -> Self {
+    pub fn prefix_filtered(delegate: DimensionSpec, prefix: String) -> Self {
         Self::PrefixFiltered {
             delegate: Box::new(delegate),
-            prefix: prefix.into(),
+            prefix,
         }
     }
 
     pub fn lookup(
-        dimension: &str,
-        output_name: &str,
+        dimension: String,
+        output_name: String,
         retain_missing_value: Option<bool>,
         replace_missing_value_with: Option<DruidNativeType>,
         lookup: Option<Lookup>,
@@ -113,8 +113,8 @@ impl DimensionSpec {
         }
         match lookup {
             Some(Lookup::Map { .. }) | None => Ok(Self::Lookup {
-                dimension: dimension.into(),
-                output_name: output_name.into(),
+                dimension,
+                output_name,
                 retain_missing_value,
                 replace_missing_value_with,
                 lookup,
@@ -137,8 +137,8 @@ mod tests {
     #[test]
     fn retain_true_replace_some_string_fails() -> Result<(), Box<dyn Error>> {
         match DimensionSpec::lookup(
-            "dim",
-            "out_name",
+            "dim".to_owned(),
+            "out_name".to_owned(),
             Some(true),
             Some(DruidNativeType::String("a".into())),
             None,
@@ -154,8 +154,8 @@ mod tests {
     #[test]
     fn retain_true_replace_some_fails() -> Result<(), Box<dyn Error>> {
         match DimensionSpec::lookup(
-            "dim",
-            "out_name",
+            "dim".to_owned(),
+            "out_name".to_owned(),
             Some(true),
             Some(DruidNativeType::Long(2)),
             None,
@@ -171,8 +171,8 @@ mod tests {
     #[test]
     fn retain_true_replace_empty_string_succeeds() -> Result<(), Box<dyn Error>> {
         match DimensionSpec::lookup(
-            "dim",
-            "out_name",
+            "dim".to_owned(),
+            "out_name".to_owned(),
             Some(true),
             Some(DruidNativeType::String("".into())),
             None,
