@@ -13,8 +13,8 @@ pub enum Granularity {
 }
 
 impl Granularity {
-    pub fn simple(granulaity: &str) -> Self {
-        Self::Simple(granulaity.into())
+    pub fn simple(granulaity: String) -> Self {
+        Self::Simple(granulaity)
     }
 
     pub fn duration(duration: u64) -> Self {
@@ -24,28 +24,28 @@ impl Granularity {
         }
     }
 
-    pub fn duration_with_origin(duration: u64, origin: &str) -> Self {
+    pub fn duration_with_origin(duration: u64, origin: String) -> Self {
         Self::Duration {
             duration,
-            origin: Some(origin.into()),
+            origin: Some(origin),
         }
     }
 
-    pub fn period(period: &str) -> Self {
+    pub fn period(period: String) -> Self {
         Self::Period {
-            period: period.into(),
+            period,
             origin: None,
             time_zone: None,
         }
     }
 
     pub fn period_with_origin_tz(
-        period: &str,
+        period: String,
         origin: Option<String>,
         time_zone: Option<String>,
     ) -> Self {
         Self::Period {
-            period: period.into(),
+            period,
             origin,
             time_zone,
         }
