@@ -183,13 +183,13 @@ impl Context {
         self
     }
 
-    pub fn sql_query_id(&mut self, sqid: &str) -> &mut Self {
-        self.sql_query_id = Some(sqid.into());
+    pub fn sql_query_id(&mut self, sqid: String) -> &mut Self {
+        self.sql_query_id = Some(sqid);
         self
     }
 
-    pub fn sql_time_zone(&mut self, stz: &str) -> &mut Self {
-        self.sql_time_zone = Some(stz.into());
+    pub fn sql_time_zone(&mut self, stz: String) -> &mut Self {
+        self.sql_time_zone = Some(stz);
         self
     }
 
