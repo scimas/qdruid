@@ -194,9 +194,7 @@ impl ExtractionFunction {
     }
 
     pub fn cascade(extraction_fns: Vec<ExtractionFunction>) -> Self {
-        Self::Cascade {
-            extraction_fns,
-        }
+        Self::Cascade { extraction_fns }
     }
 
     pub fn string_format(
@@ -319,7 +317,8 @@ mod tests {
 
     #[test]
     fn string_format_fails_on_unknown_values() -> Result<(), Box<dyn Error>> {
-        match ExtractionFunction::string_format("a".to_owned(), Some("non_existent_option".into())) {
+        match ExtractionFunction::string_format("a".to_owned(), Some("non_existent_option".into()))
+        {
             Err(NullHandlingError {}) => Ok(()),
             _ => Err("did not receive the expected error".into()),
         }
