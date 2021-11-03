@@ -7,7 +7,7 @@ pub struct Client<T: IntoUrl, U: IntoUrl> {
 }
 
 impl<T: IntoUrl, U: IntoUrl> Client<T, U> {
-    fn new(native_endpoint: T, sql_endpoint: U) -> Self {
+    pub fn new(native_endpoint: T, sql_endpoint: U) -> Self {
         Self {
             inner: reqwest::Client::new(),
             native_endpoint: Some(native_endpoint),
@@ -15,7 +15,7 @@ impl<T: IntoUrl, U: IntoUrl> Client<T, U> {
         }
     }
 
-    fn new_with_native_endpoint(native_endpoint: T) -> Self {
+    pub fn new_with_native_endpoint(native_endpoint: T) -> Self {
         Self {
             inner: reqwest::Client::new(),
             native_endpoint: Some(native_endpoint),
@@ -23,7 +23,7 @@ impl<T: IntoUrl, U: IntoUrl> Client<T, U> {
         }
     }
 
-    fn new_with_sql_endpoint(sql_endpoint: U) -> Self {
+    pub fn new_with_sql_endpoint(sql_endpoint: U) -> Self {
         Self {
             inner: reqwest::Client::new(),
             native_endpoint: None,
@@ -38,7 +38,10 @@ mod tests {
 
     #[test]
     fn new_test() {
-        let new_client = Client::new("http://localhost:8888/druid/v2", "http://localhost:8888/druid/v2/sql");
+        let new_client = Client::new(
+            "http://localhost:8888/druid/v2",
+            "http://localhost:8888/druid/v2/sql",
+        );
         let client = Client {
             inner: reqwest::Client::new(),
             native_endpoint: Some("http://localhost:8888/druid/v2"),
