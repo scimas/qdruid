@@ -9,3 +9,9 @@ pub enum Lookup {
         injective: Option<bool>,
     },
 }
+
+impl Lookup {
+    pub fn map(map: HashMap<DruidNativeType, DruidNativeType>, injective: Option<bool>) -> Self {
+        Self::Map { map, injective }
+    }
+}
