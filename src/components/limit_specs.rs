@@ -35,7 +35,10 @@ impl LimitSpec {
         if let Some(s) = &dimension_order {
             let s = s.to_lowercase();
             if s != "lexicographic" && s != "alphanumeric" && s != "strlen" && s != "numeric" {
-                return Err(InvalidOrderingError {});
+                return Err(InvalidOrderingError::new(
+                    s,
+                    r#""lexicographic", "alphanumeric", "strlen" or "numeric""#.into(),
+                ));
             }
         }
         Ok(Self::OrderByColumnSpec {
