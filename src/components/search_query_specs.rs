@@ -32,13 +32,10 @@ impl SearchQuerySpec {
         case_sensitive: bool,
         values: Vec<DruidNativeType>,
     ) -> Result<Self, ValueNotString> {
-        if values.iter().any(|val| {
-            if let DruidNativeType::String(_) = val {
-                false
-            } else {
-                true
-            }
-        }) {
+        if values
+            .iter()
+            .any(|val| !matches!(val, DruidNativeType::String(_)))
+        {
             // some value is not String
             Err(ValueNotString {})
         } else {

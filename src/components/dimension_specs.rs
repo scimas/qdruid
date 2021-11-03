@@ -103,7 +103,7 @@ impl DimensionSpec {
             if let Some(s) = &replace_missing_value_with {
                 match s {
                     DruidNativeType::String(s) => {
-                        if s.len() != 0 {
+                        if !s.is_empty() {
                             return Err(LookupError::RetainingReplacingSimultaneously);
                         }
                     }
