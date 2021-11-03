@@ -57,7 +57,7 @@ impl HavingSpec {
         Self::And { having_specs }
     }
 
-    pub fn or(having_specs: Vec<HavingSpecs>) -> Self {
+    pub fn or(having_specs: Vec<HavingSpec>) -> Self {
         Self::Or { having_specs }
     }
 
