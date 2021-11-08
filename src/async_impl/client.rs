@@ -1,13 +1,11 @@
-use reqwest::IntoUrl;
-
-pub struct Client<T: IntoUrl, U: IntoUrl> {
+pub struct Client {
     inner: reqwest::Client,
-    native_endpoint: Option<T>,
-    sql_endpoint: Option<U>,
+    native_endpoint: Option<String>,
+    sql_endpoint: Option<String>,
 }
 
-impl<T: IntoUrl, U: IntoUrl> Client<T, U> {
-    pub fn new(native_endpoint: T, sql_endpoint: U) -> Self {
+impl Client {
+    pub fn new(native_endpoint: String, sql_endpoint: String) -> Self {
         Self {
             inner: reqwest::Client::new(),
             native_endpoint: Some(native_endpoint),
@@ -15,7 +13,7 @@ impl<T: IntoUrl, U: IntoUrl> Client<T, U> {
         }
     }
 
-    pub fn new_with_native_endpoint(native_endpoint: T) -> Self {
+    pub fn native_client(native_endpoint: String) -> Self {
         Self {
             inner: reqwest::Client::new(),
             native_endpoint: Some(native_endpoint),
@@ -23,7 +21,7 @@ impl<T: IntoUrl, U: IntoUrl> Client<T, U> {
         }
     }
 
-    pub fn new_with_sql_endpoint(sql_endpoint: U) -> Self {
+    pub fn sql_client(sql_endpoint: String) -> Self {
         Self {
             inner: reqwest::Client::new(),
             native_endpoint: None,
@@ -39,13 +37,13 @@ mod tests {
     #[test]
     fn new_test() {
         let new_client = Client::new(
-            "http://localhost:8888/druid/v2",
-            "http://localhost:8888/druid/v2/sql",
+            "http://localhost:8888/druid/v2".to_string(),
+            "http://localhost:8888/druid/v2/sql".to_string(),
         );
         let client = Client {
             inner: reqwest::Client::new(),
-            native_endpoint: Some("http://localhost:8888/druid/v2"),
-            sql_endpoint: Some("http://localhost:8888/druid/v2/sql"),
+            native_endpoint: Some("http://localhost:8888/druid/v2".to_string()),
+            sql_endpoint: Some("http://localhost:8888/druid/v2/sql".to_string()),
         };
         assert_eq!(new_client.native_endpoint, client.native_endpoint);
         assert_eq!(new_client.sql_endpoint, client.sql_endpoint);
