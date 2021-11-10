@@ -59,7 +59,7 @@ pub enum Filter {
         lower_strict: Option<bool>,
         upper_strict: Option<bool>,
         ordering: Option<String>, // must be one of "lexicographic", "alphanumeric", "numeric", "strlen", "version"
-        extraction_fn: ExtractionFunction,
+        extraction_fn: Option<ExtractionFunction>,
     },
     Interval {
         dimension: String,
@@ -196,7 +196,7 @@ impl Filter {
         lower_strict: Option<bool>,
         upper_strict: Option<bool>,
         ordering: Option<String>,
-        extraction_fn: ExtractionFunction,
+        extraction_fn: Option<ExtractionFunction>,
     ) -> Self {
         Self::Bound {
             dimension,
