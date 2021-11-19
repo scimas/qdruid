@@ -97,7 +97,7 @@ pub enum Aggregator {
         fn_reset: String,
     },
     Filtered {
-        filter: Filter,
+        filter: Box<Filter>,
         aggregator: Box<Aggregator>,
     },
     Grouping {
@@ -225,7 +225,7 @@ impl Aggregator {
 
     pub fn filtered(filter: Filter, aggregator: Aggregator) -> Self {
         Self::Filtered {
-            filter,
+            filter: Box::new(filter),
             aggregator: Box::new(aggregator),
         }
     }

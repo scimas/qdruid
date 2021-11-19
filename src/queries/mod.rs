@@ -17,8 +17,8 @@ pub mod topn;
 #[derive(Debug, Clone)]
 pub enum Query {
     Timeseries(Timeseries),
-    TopN(TopN),
-    GroupBy(GroupBy),
+    TopN(Box<TopN>),
+    GroupBy(Box<GroupBy>),
     Scan(Scan),
     Search(Search),
     TimeBoundary(TimeBoundary),
@@ -35,13 +35,13 @@ impl From<Timeseries> for Query {
 
 impl From<TopN> for Query {
     fn from(topn_query: TopN) -> Self {
-        Self::TopN(topn_query)
+        Self::TopN(Box::new(topn_query))
     }
 }
 
 impl From<GroupBy> for Query {
     fn from(groupby_query: GroupBy) -> Self {
-        Self::GroupBy(groupby_query)
+        Self::GroupBy(Box::new(groupby_query))
     }
 }
 
