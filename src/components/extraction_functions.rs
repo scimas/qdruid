@@ -1,10 +1,13 @@
+use serde::{Deserialize, Serialize};
+
 use super::{
     druid_types::DruidNativeType, granularities::Granularity, lookups::Lookup,
     search_query_specs::SearchQuerySpec,
 };
 use std::{error::Error, fmt::Display};
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type", rename_all = "camelCase")]
 pub enum ExtractionFunction {
     Regex {
         expr: String,

@@ -1,9 +1,12 @@
+use serde::{Deserialize, Serialize};
+
 use super::druid_types::DruidNativeType;
 use crate::queries::Query;
 use std::error::Error;
 use std::fmt::Display;
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type", rename_all = "camelCase")]
 pub enum DataSource {
     Table {
         name: String,

@@ -1,4 +1,7 @@
-#[derive(Debug, Clone)]
+use serde::{Deserialize, Serialize};
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
 pub enum DruidNativeType {
     String(String),
     Double(f64),
@@ -24,7 +27,8 @@ impl DruidNativeType {
     }
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
 pub enum DruidSqlType {
     Char(char),
     Varchar(String),

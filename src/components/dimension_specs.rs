@@ -1,10 +1,13 @@
+use serde::{Serialize, Deserialize};
+
 use super::{
     druid_types::DruidNativeType,
     extraction_functions::{ExtractionFunction, LookupError},
     lookups::Lookup,
 };
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type", rename_all = "camelCase")]
 pub enum DimensionSpec {
     Default {
         dimension: String,

@@ -1,6 +1,9 @@
+use serde::{Serialize, Deserialize};
+
 use super::{dimension_specs::DimensionSpec, filters::Filter};
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type", rename_all = "camelCase")]
 pub enum Aggregator {
     Count {
         name: String,

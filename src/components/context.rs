@@ -1,6 +1,9 @@
+use serde::{Serialize, Deserialize};
+
 use super::druid_types::DruidNativeType;
 
-#[derive(Debug, Default, Clone)]
+#[derive(Debug, Default, Clone, Serialize, Deserialize)]
+#[serde(rename = "context", rename_all = "camelCase")]
 pub struct Context {
     timeout: Option<DruidNativeType>,
     priority: Option<DruidNativeType>,

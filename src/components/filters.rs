@@ -1,9 +1,12 @@
+use serde::{Deserialize, Serialize};
+
 use super::{
     dimension_specs::DimensionSpec, extraction_functions::ExtractionFunction, intervals::Interval,
     search_query_specs::SearchQuerySpec,
 };
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type", rename_all = "camelCase")]
 pub enum Filter {
     Selector {
         dimension: DimensionSpec,
