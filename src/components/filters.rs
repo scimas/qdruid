@@ -79,7 +79,8 @@ pub enum Filter {
     },
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type", rename_all = "camelCase")]
 pub enum Bound {
     Rectangular {
         min_coords: Vec<f64>,

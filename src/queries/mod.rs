@@ -1,3 +1,5 @@
+use serde::{Deserialize, Serialize};
+
 use self::{
     datasource_metadata::DataSourceMetadata, groupby::GroupBy, scan::Scan, search::Search,
     segment_metadata::SegmentMetadata, sql::Sql, time_boundary::TimeBoundary,
@@ -14,7 +16,8 @@ pub mod time_boundary;
 pub mod timeseries;
 pub mod topn;
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub enum Query {
     Timeseries(Timeseries),
     TopN(Box<TopN>),

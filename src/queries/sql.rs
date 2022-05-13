@@ -1,6 +1,9 @@
+use serde::{Deserialize, Serialize};
+
 use crate::components::{context::Context, druid_types::DruidSqlType};
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct Sql {
     query: String,
     result_format: Option<String>,

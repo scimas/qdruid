@@ -1,6 +1,9 @@
+use serde::{Serialize, Deserialize};
+
 use super::{druid_types::DruidNativeType, filters::Filter};
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type", rename_all = "camelCase")]
 pub enum HavingSpec {
     Filter {
         filter: Filter,

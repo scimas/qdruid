@@ -1,8 +1,11 @@
+use serde::{Deserialize, Serialize};
+
 use crate::components::{
     context::Context, data_sources::DataSource, filters::Filter, virtual_columns::VirtaulColumn,
 };
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct TimeBoundary {
     query_type: String,
     data_source: DataSource,

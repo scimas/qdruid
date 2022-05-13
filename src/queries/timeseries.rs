@@ -1,10 +1,13 @@
+use serde::{Deserialize, Serialize};
+
 use crate::components::{
     aggregations::Aggregator, context::Context, data_sources::DataSource, filters::Filter,
     granularities::Granularity, intervals::Interval, post_aggregations::PostAggregator,
     virtual_columns::VirtaulColumn,
 };
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct Timeseries {
     query_type: String,
     data_source: DataSource,

@@ -1,9 +1,12 @@
+use serde::{Deserialize, Serialize};
+
 use crate::components::{
     context::Context, data_sources::DataSource, filters::Filter, granularities::Granularity,
     intervals::Interval, search_query_specs::SearchQuerySpec, virtual_columns::VirtaulColumn,
 };
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct Search {
     query_type: String,
     data_source: DataSource,

@@ -1,37 +1,35 @@
 use serde::{Serialize, Deserialize};
 
-use super::druid_types::DruidNativeType;
-
 #[derive(Debug, Default, Clone, Serialize, Deserialize)]
 #[serde(rename = "context", rename_all = "camelCase")]
 pub struct Context {
-    timeout: Option<DruidNativeType>,
-    priority: Option<DruidNativeType>,
-    lane: Option<DruidNativeType>,
-    query_id: Option<DruidNativeType>,
-    broker_service: Option<DruidNativeType>,
+    timeout: Option<u64>,
+    priority: Option<u64>,
+    lane: Option<String>,
+    query_id: Option<String>,
+    broker_service: Option<String>,
     use_cache: Option<bool>,
     populate_cache: Option<bool>,
     use_result_level_cache: Option<bool>,
     populate_result_level_cache: Option<bool>,
     by_segment: Option<bool>,
     finalize: Option<bool>,
-    max_scatter_gather_bytes: Option<DruidNativeType>,
-    max_queued_bytes: Option<DruidNativeType>,
+    max_scatter_gather_bytes: Option<u64>,
+    max_queued_bytes: Option<u64>,
     serialize_date_time_as_long: Option<bool>,
     serialize_date_time_as_long_inner: Option<bool>,
     enable_parallel_merge: Option<bool>,
-    parallel_merge_parallelism: Option<DruidNativeType>,
-    parallel_merge_initial_yield_rows: Option<DruidNativeType>,
-    parallel_merge_small_batch_rows: Option<DruidNativeType>,
+    parallel_merge_parallelism: Option<u64>,
+    parallel_merge_initial_yield_rows: Option<u64>,
+    parallel_merge_small_batch_rows: Option<u64>,
     use_filter_c_n_f: Option<bool>,
     secondary_partition_pruning: Option<bool>,
     enable_join_left_table_scan_direct: Option<bool>,
     debug: Option<bool>,
-    min_ton_n_threshold: Option<DruidNativeType>,
+    min_ton_n_threshold: Option<u64>,
     skip_empty_buckets: Option<bool>,
     vectorize: Option<bool>,
-    vector_size: Option<DruidNativeType>,
+    vector_size: Option<u64>,
     vectorize_virtual_columns: Option<bool>,
     sql_query_id: Option<String>,
     sql_time_zone: Option<String>,
@@ -46,27 +44,27 @@ impl Context {
         Default::default()
     }
 
-    pub fn timeout(&mut self, t: DruidNativeType) -> &mut Self {
+    pub fn timeout(&mut self, t: u64) -> &mut Self {
         self.timeout = Some(t);
         self
     }
 
-    pub fn priority(&mut self, p: DruidNativeType) -> &mut Self {
+    pub fn priority(&mut self, p: u64) -> &mut Self {
         self.priority = Some(p);
         self
     }
 
-    pub fn lane(&mut self, l: DruidNativeType) -> &mut Self {
+    pub fn lane(&mut self, l: String) -> &mut Self {
         self.lane = Some(l);
         self
     }
 
-    pub fn query_id(&mut self, qid: DruidNativeType) -> &mut Self {
+    pub fn query_id(&mut self, qid: String) -> &mut Self {
         self.query_id = Some(qid);
         self
     }
 
-    pub fn broker_service(&mut self, bs: DruidNativeType) -> &mut Self {
+    pub fn broker_service(&mut self, bs: String) -> &mut Self {
         self.broker_service = Some(bs);
         self
     }
@@ -101,12 +99,12 @@ impl Context {
         self
     }
 
-    pub fn max_scatter_gather_bytes(&mut self, msgb: DruidNativeType) -> &mut Self {
+    pub fn max_scatter_gather_bytes(&mut self, msgb: u64) -> &mut Self {
         self.max_scatter_gather_bytes = Some(msgb);
         self
     }
 
-    pub fn max_queued_bytes(&mut self, mqb: DruidNativeType) -> &mut Self {
+    pub fn max_queued_bytes(&mut self, mqb: u64) -> &mut Self {
         self.max_queued_bytes = Some(mqb);
         self
     }
@@ -126,17 +124,17 @@ impl Context {
         self
     }
 
-    pub fn parallel_merge_parallelism(&mut self, pmp: DruidNativeType) -> &mut Self {
+    pub fn parallel_merge_parallelism(&mut self, pmp: u64) -> &mut Self {
         self.parallel_merge_parallelism = Some(pmp);
         self
     }
 
-    pub fn parallel_merge_initial_yield_rows(&mut self, pmiyr: DruidNativeType) -> &mut Self {
+    pub fn parallel_merge_initial_yield_rows(&mut self, pmiyr: u64) -> &mut Self {
         self.parallel_merge_initial_yield_rows = Some(pmiyr);
         self
     }
 
-    pub fn parallel_merge_small_batch_rows(&mut self, pmsbr: DruidNativeType) -> &mut Self {
+    pub fn parallel_merge_small_batch_rows(&mut self, pmsbr: u64) -> &mut Self {
         self.parallel_merge_small_batch_rows = Some(pmsbr);
         self
     }
@@ -161,7 +159,7 @@ impl Context {
         self
     }
 
-    pub fn min_ton_n_threshold(&mut self, mtnt: DruidNativeType) -> &mut Self {
+    pub fn min_ton_n_threshold(&mut self, mtnt: u64) -> &mut Self {
         self.min_ton_n_threshold = Some(mtnt);
         self
     }
@@ -176,7 +174,7 @@ impl Context {
         self
     }
 
-    pub fn vector_size(&mut self, vs: DruidNativeType) -> &mut Self {
+    pub fn vector_size(&mut self, vs: u64) -> &mut Self {
         self.vector_size = Some(vs);
         self
     }

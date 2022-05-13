@@ -1,8 +1,11 @@
 use std::{error::Error, fmt::Display};
 
+use serde::{Deserialize, Serialize};
+
 use super::druid_types::DruidNativeType;
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type", rename_all = "camelCase")]
 pub enum SearchQuerySpec {
     InsensitiveContains {
         value: DruidNativeType, // must be String

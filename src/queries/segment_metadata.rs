@@ -1,9 +1,12 @@
+use serde::{Deserialize, Serialize};
+
 use crate::components::{
     context::Context, data_sources::DataSource, intervals::Interval, to_include::ToInclude,
     virtual_columns::VirtaulColumn,
 };
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct SegmentMetadata {
     query_type: String,
     data_source: DataSource,

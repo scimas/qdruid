@@ -1,5 +1,7 @@
 use std::{error::Error, fmt::Display, str::FromStr};
 
+use serde::{de, Deserialize, Deserializer, Serialize, Serializer};
+
 #[derive(Debug, Clone)]
 pub struct Interval {
     start: String,
@@ -48,6 +50,36 @@ impl FromStr for Interval {
             }
         }
         Err(Self::Err {})
+    }
+}
+
+impl Serialize for Interval {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {
+        serializer.serialize_str(&self.to_string())
+    }
+}
+
+impl<'de> Deserialize<'de> for Interval {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: Deserializer<'de>,
+    {
+        let s: &str = Deserialize::deserialize(deserializer)?;
+        let mut parts = s.split('/');
+        let start = if let Some(start) = parts.next() {
+            start.to_string()
+        } else {
+            return Err(de::Error::custom(r#"interval does not have a start"#));
+        };
+        let end = if let Some(end) = parts.next() {
+            end.to_string()
+        } else {
+            return Err(de::Error::custom(r#"interval does not have an end"#));
+        };
+        Ok(Self { start, end })
     }
 }
 

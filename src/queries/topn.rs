@@ -1,3 +1,5 @@
+use serde::{Deserialize, Serialize};
+
 use crate::components::{
     aggregations::Aggregator, context::Context, data_sources::DataSource,
     dimension_specs::DimensionSpec, filters::Filter, granularities::Granularity,
@@ -5,7 +7,8 @@ use crate::components::{
     virtual_columns::VirtaulColumn,
 };
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct TopN {
     query_type: String,
     data_source: DataSource,

@@ -1,6 +1,9 @@
+use serde::{Deserialize, Serialize};
+
 use super::ordering::InvalidOrderingError;
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(tag = "type", rename_all = "camelCase")]
 pub enum LimitSpec {
     Default {
         limit: Option<usize>,
