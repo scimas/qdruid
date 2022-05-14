@@ -1,3 +1,5 @@
+use std::str::FromStr;
+
 use serde::{
     de,
     ser::{SerializeMap, Serializer},
@@ -166,5 +168,22 @@ impl Granularity {
             origin,
             time_zone,
         }
+    }
+}
+
+#[derive(Debug, Clone, thiserror::Error)]
+#[error("invalid simple granularity string {0}")]
+pub struct InvalidGranularity(String);
+
+impl FromStr for Granularity {
+    type Err = InvalidGranularity;
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        let lower = s.to_lowercase();
+        let g_str = match lower.as_str() {
+            "none" | "all" | "second" | "minute" | "fifteen_minute" | "thirty_minute" | "hour"
+            | "day" | "week" | "month" | "quarter" | "year" => s.to_string(),
+            _ => return Err(InvalidGranularity(s.to_string())),
+        };
+        Ok(Granularity::Simple(g_str))
     }
 }
