@@ -6,6 +6,7 @@ pub use async_impl::client::Client;
 
 pub use queries::datasource_metadata::DataSourceMetadata;
 pub use queries::groupby::GroupBy;
+pub use queries::response::DruidResponse;
 pub use queries::scan::Scan;
 pub use queries::search::Search;
 pub use queries::segment_metadata::SegmentMetadata;
@@ -14,7 +15,6 @@ pub use queries::time_boundary::TimeBoundary;
 pub use queries::timeseries::Timeseries;
 pub use queries::topn::TopN;
 pub use queries::Query;
-pub use queries::response::DruidResponse;
 
 pub use components::aggregations::Aggregator;
 pub use components::context::Context;
