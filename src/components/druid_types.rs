@@ -1,12 +1,14 @@
+use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum DruidNativeType {
     String(String),
-    Double(f64),
-    Float(f32),
+    Array(Vec<String>),
     Long(i64),
+    Float(f32),
+    Double(f64),
 }
 
 impl DruidNativeType {
@@ -28,21 +30,21 @@ impl DruidNativeType {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(untagged)]
+#[serde(tag = "type", content = "value", rename_all = "UPPERCASE")]
 pub enum DruidSqlType {
-    Char(char),
-    Varchar(String),
-    Decimal(f64),
-    Float(f32),
-    Real(f64),
-    Double(f64),
-    Boolean(bool),
     Tinyint(i64),
     Smallint(i64),
     Integer(i64),
     Bigint(i64),
-    Timestamp(String),
-    Date(String),
+    Boolean(bool),
+    Float(f32),
+    Double(f64),
+    Decimal(f64),
+    Real(f64),
+    Timestamp(DateTime<Utc>),
+    Date(DateTime<Utc>),
+    Char(char),
+    Varchar(String),
 }
 
 impl DruidSqlType {
@@ -90,11 +92,11 @@ impl DruidSqlType {
         Self::Bigint(d.into())
     }
 
-    pub fn timestamp<T: Into<String>>(d: T) -> Self {
+    pub fn timestamp<T: Into<DateTime<Utc>>>(d: T) -> Self {
         Self::Timestamp(d.into())
     }
 
-    pub fn date<T: Into<String>>(d: T) -> Self {
+    pub fn date<T: Into<DateTime<Utc>>>(d: T) -> Self {
         Self::Date(d.into())
     }
 }
