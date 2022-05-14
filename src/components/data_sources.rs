@@ -2,8 +2,6 @@ use serde::{Deserialize, Serialize};
 
 use super::druid_types::DruidNativeType;
 use crate::queries::Query;
-use std::error::Error;
-use std::fmt::Display;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(tag = "type", rename_all = "camelCase")]
@@ -107,32 +105,26 @@ impl DataSource {
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone, thiserror::Error)]
 pub enum JoinDataSourceError {
+    #[error("invalid {which} join source {datasource_type}")]
     InvalidJoinSource {
         which: String, // left or right
         datasource_type: String,
     },
+    #[error("invalid join type {0}")]
     InvalidJoinType(String),
+    #[error("right_prefix is empty")]
     EmptyRightPrefix,
+    #[error("condition is not equality")]
     ConditionNotEquality,
 }
 
-impl Display for JoinDataSourceError {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        match self {
-            Self::InvalidJoinSource {
-                which,
-                datasource_type,
-            } => write!(f, "invalid {} join source {}", which, datasource_type),
-            Self::InvalidJoinType(join_type) => write!(f, "invalid join type {}", join_type),
-            Self::EmptyRightPrefix => write!(f, "right_prefix is empty"),
-            Self::ConditionNotEquality => write!(f, "condition is not equality"),
-        }
+impl<T: Into<String>> From<T> for DataSource {
+    fn from(s: T) -> Self {
+        Self::Table { name: s.into() }
     }
 }
-
-impl Error for JoinDataSourceError {}
 
 #[cfg(test)]
 mod tests {
