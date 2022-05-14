@@ -1,6 +1,6 @@
 mod async_impl;
 mod components;
-mod queries;
+pub mod queries;
 
 pub use async_impl::client::Client;
 
@@ -14,6 +14,7 @@ pub use queries::time_boundary::TimeBoundary;
 pub use queries::timeseries::Timeseries;
 pub use queries::topn::TopN;
 pub use queries::Query;
+pub use queries::response::DruidResponse;
 
 pub use components::aggregations::Aggregator;
 pub use components::context::Context;
