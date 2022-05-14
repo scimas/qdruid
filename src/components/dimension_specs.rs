@@ -1,4 +1,4 @@
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 
 use super::{
     druid_types::DruidNativeType,
@@ -124,7 +124,6 @@ impl DimensionSpec {
                 optimize,
                 name,
             }),
-            _ => Err(LookupError::LookupNotMap),
         }
     }
 }
