@@ -4,7 +4,6 @@ use super::{
     druid_types::DruidNativeType, granularities::Granularity, lookups::Lookup,
     search_query_specs::SearchQuerySpec,
 };
-use std::{error::Error, fmt::Display};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(tag = "type", rename_all = "camelCase")]
@@ -192,7 +191,6 @@ impl ExtractionFunction {
                 injective,
                 optimize,
             }),
-            _ => Err(LookupError::LookupNotMap),
         }
     }
 
@@ -228,36 +226,17 @@ impl ExtractionFunction {
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone, Copy, thiserror::Error)]
 pub enum LookupError {
+    #[error("retain_missing_value = true and non null (or non empty String) replace_missing_value_with at the same time are illegal")]
     RetainingReplacingSimultaneously,
+    #[error("lookup must be of type Map for the Lookup extraction function")]
     LookupNotMap,
 }
 
-impl Display for LookupError {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        match self {
-            LookupError::RetainingReplacingSimultaneously => write!(f, "retain_missing_value = true and non null (or non empty String) replace_missing_value_with at the same time are illegal"),
-            LookupError::LookupNotMap => write!(f, "lookup must be of type Map for the Lookup extraction function"),
-        }
-    }
-}
-
-impl Error for LookupError {}
-
-#[derive(Debug)]
-pub struct NullHandlingError {}
-
-impl Display for NullHandlingError {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            r#"null_handling must be one of "nullString", "emptyString" or "returnNull""#
-        )
-    }
-}
-
-impl Error for NullHandlingError {}
+#[derive(Debug, Clone, Copy, thiserror::Error)]
+#[error(r#"null_handling must be one of "nullString", "emptyString" or "returnNull""#)]
+pub struct NullHandlingError;
 
 #[cfg(test)]
 mod tests {
