@@ -1,5 +1,5 @@
 [package]
-name = "druid"
+name = "query-druid"
 version = "0.1.0"
 edition = "2021"
 
