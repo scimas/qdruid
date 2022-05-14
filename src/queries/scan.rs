@@ -42,52 +42,52 @@ impl Scan {
         }
     }
 
-    pub fn result_format(&mut self, result_format: String) -> &mut Self {
+    pub fn result_format(mut self, result_format: String) -> Self {
         self.result_format = Some(result_format);
         self
     }
 
-    pub fn filter(&mut self, filter: Filter) -> &mut Self {
+    pub fn filter(mut self, filter: Filter) -> Self {
         self.filter = Some(filter);
         self
     }
 
-    pub fn columns(&mut self, columns: &[String]) -> &mut Self {
+    pub fn columns(mut self, columns: &[String]) -> Self {
         self.columns = Some(columns.to_vec());
         self
     }
 
-    pub fn batch_size(&mut self, batch_size: usize) -> &mut Self {
+    pub fn batch_size(mut self, batch_size: usize) -> Self {
         self.batch_size = Some(batch_size);
         self
     }
 
-    pub fn limit(&mut self, limit: usize) -> &mut Self {
+    pub fn limit(mut self, limit: usize) -> Self {
         self.limit = Some(limit);
         self
     }
 
-    pub fn offset(&mut self, offset: usize) -> &mut Self {
+    pub fn offset(mut self, offset: usize) -> Self {
         self.offset = Some(offset);
         self
     }
 
-    pub fn order(&mut self, order: &str) -> &mut Self {
+    pub fn order(mut self, order: &str) -> Self {
         self.order = Some(order.into());
         self
     }
 
-    pub fn legacy(&mut self, legacy: bool) -> &mut Self {
+    pub fn legacy(mut self, legacy: bool) -> Self {
         self.legacy = Some(legacy);
         self
     }
 
-    pub fn virtual_columns(&mut self, virtual_columns: &[VirtaulColumn]) -> &mut Self {
+    pub fn virtual_columns(mut self, virtual_columns: &[VirtaulColumn]) -> Self {
         self.virtual_columns = Some(virtual_columns.to_vec());
         self
     }
 
-    pub fn context(&mut self, context: Context) -> &mut Self {
+    pub fn context(mut self, context: Context) -> Self {
         self.context = Some(context);
         self
     }

@@ -38,37 +38,37 @@ impl Search {
         }
     }
 
-    pub fn granularity(&mut self, granularity: Granularity) -> &mut Self {
+    pub fn granularity(mut self, granularity: Granularity) -> Self {
         self.granularity = Some(granularity);
         self
     }
 
-    pub fn filter(&mut self, filter: Filter) -> &mut Self {
+    pub fn filter(mut self, filter: Filter) -> Self {
         self.filter = Some(filter);
         self
     }
 
-    pub fn limit(&mut self, limit: usize) -> &mut Self {
+    pub fn limit(mut self, limit: usize) -> Self {
         self.limit = Some(limit);
         self
     }
 
-    pub fn search_dimensions(&mut self, search_dimensions: &[String]) -> &mut Self {
+    pub fn search_dimensions(mut self, search_dimensions: &[String]) -> Self {
         self.search_dimensions = Some(search_dimensions.to_vec());
         self
     }
 
-    pub fn sort(&mut self, sort: &str) -> &mut Self {
+    pub fn sort(mut self, sort: &str) -> Self {
         self.sort = Some(sort.into());
         self
     }
 
-    pub fn virtual_columns(&mut self, virtual_columns: &[VirtaulColumn]) -> &mut Self {
+    pub fn virtual_columns(mut self, virtual_columns: &[VirtaulColumn]) -> Self {
         self.virtual_columns = Some(virtual_columns.to_vec());
         self
     }
 
-    pub fn context(&mut self, context: Context) -> &mut Self {
+    pub fn context(mut self, context: Context) -> Self {
         self.context = Some(context);
         self
     }

@@ -49,42 +49,42 @@ impl GroupBy {
         }
     }
 
-    pub fn limit_spec(&mut self, limit_spec: LimitSpec) -> &mut Self {
+    pub fn limit_spec(mut self, limit_spec: LimitSpec) -> Self {
         self.limit_spec = Some(limit_spec);
         self
     }
 
-    pub fn having(&mut self, having: HavingSpec) -> &mut Self {
+    pub fn having(mut self, having: HavingSpec) -> Self {
         self.having = Some(having);
         self
     }
 
-    pub fn filter(&mut self, filter: Filter) -> &mut Self {
+    pub fn filter(mut self, filter: Filter) -> Self {
         self.filter = Some(filter);
         self
     }
 
-    pub fn aggregations(&mut self, aggregations: &[Aggregator]) -> &mut Self {
+    pub fn aggregations(mut self, aggregations: &[Aggregator]) -> Self {
         self.aggregations = Some(aggregations.to_vec());
         self
     }
 
-    pub fn post_aggregations(&mut self, post_aggregations: &[PostAggregator]) -> &mut Self {
+    pub fn post_aggregations(mut self, post_aggregations: &[PostAggregator]) -> Self {
         self.post_aggregations = Some(post_aggregations.to_vec());
         self
     }
 
-    pub fn subtotals_spec(&mut self, subtotals_spec: &[Vec<String>]) -> &mut Self {
+    pub fn subtotals_spec(mut self, subtotals_spec: &[Vec<String>]) -> Self {
         self.subtotals_spec = Some(subtotals_spec.to_vec());
         self
     }
 
-    pub fn virtual_columns(&mut self, virtual_columns: &[VirtaulColumn]) -> &mut Self {
+    pub fn virtual_columns(mut self, virtual_columns: &[VirtaulColumn]) -> Self {
         self.virtual_columns = Some(virtual_columns.to_vec());
         self
     }
 
-    pub fn context(&mut self, context: Context) -> &mut Self {
+    pub fn context(mut self, context: Context) -> Self {
         self.context = Some(context);
         self
     }

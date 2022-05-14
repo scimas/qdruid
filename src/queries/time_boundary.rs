@@ -27,22 +27,22 @@ impl TimeBoundary {
         }
     }
 
-    pub fn bound(&mut self, bound: &str) -> &mut Self {
+    pub fn bound(mut self, bound: &str) -> Self {
         self.bound = Some(bound.into());
         self
     }
 
-    pub fn filter(&mut self, filter: Filter) -> &mut Self {
+    pub fn filter(mut self, filter: Filter) -> Self {
         self.filter = Some(filter);
         self
     }
 
-    pub fn virtual_columns(&mut self, virtual_columns: &[VirtaulColumn]) -> &mut Self {
+    pub fn virtual_columns(mut self, virtual_columns: &[VirtaulColumn]) -> Self {
         self.virtual_columns = Some(virtual_columns.to_vec());
         self
     }
 
-    pub fn context(&mut self, context: Context) -> &mut Self {
+    pub fn context(mut self, context: Context) -> Self {
         self.context = Some(context);
         self
     }

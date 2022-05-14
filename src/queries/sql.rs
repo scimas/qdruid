@@ -5,11 +5,21 @@ use crate::components::{context::Context, druid_types::DruidSqlType};
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Sql {
-    query: String,
-    result_format: Option<String>,
-    header: Option<bool>,
-    parameters: Option<Vec<DruidSqlType>>,
-    context: Option<Context>,
+    pub query: String,
+    pub result_format: Option<ResultFormat>,
+    pub header: Option<bool>,
+    pub parameters: Option<Vec<DruidSqlType>>,
+    pub context: Option<Context>,
+}
+
+#[derive(Debug, Clone, Copy, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub enum ResultFormat {
+    Object,
+    Array,
+    ObjectLines,
+    ArrayLines,
+    Csv,
 }
 
 impl Sql {
@@ -23,22 +33,22 @@ impl Sql {
         }
     }
 
-    pub fn result_format(&mut self, result_format: &str) -> &mut Self {
-        self.result_format = Some(result_format.into());
+    pub fn result_format(mut self, result_format: ResultFormat) -> Self {
+        self.result_format = Some(result_format);
         self
     }
 
-    pub fn header(&mut self, header: bool) -> &mut Self {
+    pub fn header(mut self, header: bool) -> Self {
         self.header = Some(header);
         self
     }
 
-    pub fn parameters(&mut self, parameters: &[DruidSqlType]) -> &mut Self {
+    pub fn parameters(mut self, parameters: &[DruidSqlType]) -> Self {
         self.parameters = Some(parameters.to_vec());
         self
     }
 
-    pub fn context(&mut self, context: Context) -> &mut Self {
+    pub fn context(mut self, context: Context) -> Self {
         self.context = Some(context);
         self
     }

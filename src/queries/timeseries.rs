@@ -39,37 +39,37 @@ impl Timeseries {
         }
     }
 
-    pub fn descending(&mut self, descending: bool) -> &mut Self {
+    pub fn descending(mut self, descending: bool) -> Self {
         self.descending = Some(descending);
         self
     }
 
-    pub fn filter(&mut self, filter: Filter) -> &mut Self {
+    pub fn filter(mut self, filter: Filter) -> Self {
         self.filter = Some(filter);
         self
     }
 
-    pub fn aggregations(&mut self, aggregations: &[Aggregator]) -> &mut Self {
+    pub fn aggregations(mut self, aggregations: &[Aggregator]) -> Self {
         self.aggregations = Some(aggregations.to_vec());
         self
     }
 
-    pub fn post_aggregations(&mut self, post_aggregations: &[PostAggregator]) -> &mut Self {
+    pub fn post_aggregations(mut self, post_aggregations: &[PostAggregator]) -> Self {
         self.post_aggregations = Some(post_aggregations.to_vec());
         self
     }
 
-    pub fn limit(&mut self, limit: usize) -> &mut Self {
+    pub fn limit(mut self, limit: usize) -> Self {
         self.limit = Some(limit);
         self
     }
 
-    pub fn virtual_columns(&mut self, virtual_columns: &[VirtaulColumn]) -> &mut Self {
+    pub fn virtual_columns(mut self, virtual_columns: &[VirtaulColumn]) -> Self {
         self.virtual_columns = Some(virtual_columns.to_vec());
         self
     }
 
-    pub fn context(&mut self, context: Context) -> &mut Self {
+    pub fn context(mut self, context: Context) -> Self {
         self.context = Some(context);
         self
     }

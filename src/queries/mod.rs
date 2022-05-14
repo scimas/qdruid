@@ -8,6 +8,7 @@ use self::{
 
 pub mod datasource_metadata;
 pub mod groupby;
+pub mod response;
 pub mod scan;
 pub mod search;
 pub mod segment_metadata;
