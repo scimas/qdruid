@@ -1,5 +1,3 @@
-use std::{error::Error, fmt::Display};
-
 use serde::{Deserialize, Serialize};
 
 use super::{druid_types::DruidNativeType, ordering::InvalidOrderingError};
@@ -121,16 +119,9 @@ impl PostAggregator {
     }
 }
 
-#[derive(Debug)]
-pub struct NonNumericConstant {}
-
-impl Display for NonNumericConstant {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "constant must be numeric")
-    }
-}
-
-impl Error for NonNumericConstant {}
+#[derive(Debug, Clone, Copy, thiserror::Error)]
+#[error("constant must be numeric")]
+pub struct NonNumericConstant;
 
 #[cfg(test)]
 mod tests {

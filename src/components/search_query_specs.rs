@@ -1,5 +1,3 @@
-use std::{error::Error, fmt::Display};
-
 use serde::{Deserialize, Serialize};
 
 use super::druid_types::DruidNativeType;
@@ -64,13 +62,6 @@ impl SearchQuerySpec {
     }
 }
 
-#[derive(Debug)]
-pub struct ValueNotString {}
-
-impl Display for ValueNotString {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "value must be String")
-    }
-}
-
-impl Error for ValueNotString {}
+#[derive(Debug, Clone, Copy, thiserror::Error)]
+#[error("value must be a String")]
+pub struct ValueNotString;

@@ -1,4 +1,4 @@
-use std::{error::Error, fmt::Display, str::FromStr};
+use std::str::FromStr;
 
 use serde::{de, Deserialize, Deserializer, Serialize, Serializer};
 
@@ -12,7 +12,7 @@ impl Interval {
     pub fn new(start: &str, end: &str) -> Result<Self, InvalidISO8601> {
         if &start[..1] == "P" {
             if &end[..1] == "P" {
-                Err(InvalidISO8601)
+                Err(InvalidISO8601(format!("{start}/{end}")))
             } else {
                 Ok(Self {
                     start: start.into(),
@@ -49,7 +49,7 @@ impl FromStr for Interval {
                 return Self::new(start, end);
             }
         }
-        Err(Self::Err {})
+        Err(InvalidISO8601(s.to_string()))
     }
 }
 
@@ -83,16 +83,9 @@ impl<'de> Deserialize<'de> for Interval {
     }
 }
 
-#[derive(Debug)]
-pub struct InvalidISO8601;
-
-impl Display for InvalidISO8601 {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "invalid ISO 8601 interval")
-    }
-}
-
-impl Error for InvalidISO8601 {}
+#[derive(Debug, Clone, thiserror::Error)]
+#[error("invalid ISO 8601 interval {0}")]
+pub struct InvalidISO8601(String);
 
 #[cfg(test)]
 mod tests {
@@ -101,7 +94,7 @@ mod tests {
     #[test]
     fn new_both_period_fails() -> Result<(), String> {
         match Interval::new("P1D", "PT3H") {
-            Err(InvalidISO8601) => Ok(()),
+            Err(InvalidISO8601(_)) => Ok(()),
             _ => Err("did not receive expected error".into()),
         }
     }
