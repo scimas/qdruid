@@ -1,4 +1,4 @@
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 
 use super::{dimension_specs::DimensionSpec, filters::Filter};
 
@@ -41,6 +41,10 @@ pub enum Aggregator {
         field_name: String,
     },
     FloatMax {
+        name: String,
+        field_name: String,
+    },
+    DoubleMean {
         name: String,
         field_name: String,
     },
@@ -160,6 +164,10 @@ impl Aggregator {
 
     pub fn float_max(name: String, field_name: String) -> Self {
         Self::FloatMax { name, field_name }
+    }
+
+    pub fn double_mean(name: String, field_name: String) -> Self {
+        Self::DoubleMean { name, field_name }
     }
 
     pub fn long_first(name: String, field_name: String) -> Self {
