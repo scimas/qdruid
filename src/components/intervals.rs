@@ -4,8 +4,8 @@ use serde::{de, Deserialize, Deserializer, Serialize, Serializer};
 
 #[derive(Debug, Clone)]
 pub struct Interval {
-    start: String,
-    end: String,
+    pub start: String,
+    pub end: String,
 }
 
 impl Interval {
