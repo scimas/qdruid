@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
 
-use super::ordering::InvalidOrderingError;
+use super::ordering::Ordering;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(tag = "type", rename_all = "camelCase")]
@@ -9,7 +9,7 @@ pub enum TopNMetricSpec {
         metric: String,
     },
     Dimension {
-        ordering: Option<String>, // must be one of "lexicographic", "alphanumeric", "numeric" or "strlen"
+        ordering: Option<Ordering>, // must be one of "lexicographic", "alphanumeric", "numeric" or "strlen"
         previous_stop: Option<String>,
     },
     Inverted {
@@ -22,23 +22,11 @@ impl TopNMetricSpec {
         Self::Numeric { metric }
     }
 
-    pub fn dimension(
-        ordering: Option<String>,
-        previous_stop: Option<String>,
-    ) -> Result<Self, InvalidOrderingError> {
-        if let Some(s) = &ordering {
-            let s = s.to_lowercase();
-            if s != "lexicographic" && s != "alphanumeric" && s != "strlen" && s != "numeric" {
-                return Err(InvalidOrderingError::new(
-                    s,
-                    r#""lexicographic", "alphanumeric", "strlen" or "numeric""#.into(),
-                ));
-            }
-        }
-        Ok(Self::Dimension {
+    pub fn dimension(ordering: Option<Ordering>, previous_stop: Option<String>) -> Self {
+        Self::Dimension {
             ordering,
             previous_stop,
-        })
+        }
     }
 
     pub fn inverted(metric: TopNMetricSpec) -> Self {

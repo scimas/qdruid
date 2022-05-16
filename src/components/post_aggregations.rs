@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
 
-use super::{druid_types::DruidNativeType, ordering::InvalidOrderingError};
+use super::{druid_types::DruidNativeType, ordering::Ordering};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(tag = "type", rename_all = "camelCase")]
@@ -9,7 +9,7 @@ pub enum PostAggregator {
         name: String,
         func: String,
         fields: Vec<PostAggregator>,
-        ordering: Option<String>,
+        ordering: Option<Ordering>,
     },
     FieldAccess {
         name: String,
@@ -55,19 +55,14 @@ impl PostAggregator {
         name: String,
         func: String,
         fields: Vec<PostAggregator>,
-        ordering: Option<String>,
-    ) -> Result<Self, InvalidOrderingError> {
-        if let Some(s) = &ordering {
-            if s.to_lowercase() != "numericfirst" {
-                return Err(InvalidOrderingError::new(s.into(), "numericFirst".into()));
-            }
-        }
-        Ok(Self::Arithmetic {
+        ordering: Option<Ordering>,
+    ) -> Self {
+        Self::Arithmetic {
             name,
             func,
             fields,
             ordering,
-        })
+        }
     }
 
     pub fn field_access(name: String, field_name: String) -> Self {
@@ -132,7 +127,7 @@ mod tests {
     use super::{NonNumericConstant, PostAggregator};
 
     #[test]
-    fn contant_must_be_numeric() -> Result<(), Box<dyn Error>> {
+    fn constant_must_be_numeric() -> Result<(), Box<dyn Error>> {
         match PostAggregator::constant("name", DruidNativeType::String("heh".into())) {
             Err(NonNumericConstant {}) => Ok(()),
             _ => Err("did not receive the expected error".into()),

@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
 
-use super::ordering::InvalidOrderingError;
+use super::ordering::Ordering;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(tag = "type", rename_all = "camelCase")]
@@ -13,7 +13,7 @@ pub enum LimitSpec {
     OrderByColumnSpec {
         dimension: String,
         direction: String,
-        dimension_order: Option<String>, // must be one of "lexicographic", "alphanumeric", "strlen" or "numeric"
+        dimension_order: Option<Ordering>, // must be one of "lexicographic", "alphanumeric", "strlen" or "numeric"
     },
 }
 
@@ -33,21 +33,12 @@ impl LimitSpec {
     pub fn order_by_columns_spec(
         dimension: String,
         direction: String,
-        dimension_order: Option<String>,
-    ) -> Result<Self, InvalidOrderingError> {
-        if let Some(s) = &dimension_order {
-            let s = s.to_lowercase();
-            if s != "lexicographic" && s != "alphanumeric" && s != "strlen" && s != "numeric" {
-                return Err(InvalidOrderingError::new(
-                    s,
-                    r#""lexicographic", "alphanumeric", "strlen" or "numeric""#.into(),
-                ));
-            }
-        }
-        Ok(Self::OrderByColumnSpec {
+        dimension_order: Option<Ordering>,
+    ) -> Self {
+        Self::OrderByColumnSpec {
             dimension,
             direction,
             dimension_order,
-        })
+        }
     }
 }

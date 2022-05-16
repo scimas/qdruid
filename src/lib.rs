@@ -28,6 +28,7 @@ pub use components::having_specs::HavingSpec;
 pub use components::intervals::Interval;
 pub use components::limit_specs::LimitSpec;
 pub use components::lookups::Lookup;
+pub use components::ordering::Ordering;
 pub use components::post_aggregations::PostAggregator;
 pub use components::search_query_specs::SearchQuerySpec;
 pub use components::to_include::ToInclude;
