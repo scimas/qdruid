@@ -26,7 +26,7 @@ pub struct Context {
     secondary_partition_pruning: Option<bool>,
     enable_join_left_table_scan_direct: Option<bool>,
     debug: Option<bool>,
-    min_ton_n_threshold: Option<u64>,
+    min_top_n_threshold: Option<u64>,
     skip_empty_buckets: Option<bool>,
     vectorize: Option<bool>,
     vector_size: Option<u64>,
@@ -159,8 +159,8 @@ impl Context {
         self
     }
 
-    pub fn min_ton_n_threshold(&mut self, mtnt: u64) -> &mut Self {
-        self.min_ton_n_threshold = Some(mtnt);
+    pub fn min_top_n_threshold(&mut self, mtnt: u64) -> &mut Self {
+        self.min_top_n_threshold = Some(mtnt);
         self
     }
 
