@@ -28,23 +28,23 @@ pub enum DruidResponse {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct TimeseriesResult {
-    timestamp: Option<DateTime<Utc>>,
-    result: HashMap<String, DruidNativeType>,
+    pub timestamp: Option<DateTime<Utc>>,
+    pub result: HashMap<String, DruidNativeType>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct TopNResult {
-    timestamp: DateTime<Utc>,
-    result: Vec<HashMap<String, DruidNativeType>>,
+    pub timestamp: DateTime<Utc>,
+    pub result: Vec<HashMap<String, DruidNativeType>>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct GroupByResult {
-    timestamp: DateTime<Utc>,
-    version: String,
-    event: HashMap<String, DruidNativeType>,
+    pub timestamp: DateTime<Utc>,
+    pub version: String,
+    pub event: HashMap<String, DruidNativeType>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -65,47 +65,47 @@ pub enum ScanResult {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct SearchResult {
-    timestamp: DateTime<Utc>,
-    result: Vec<HashMap<String, DruidNativeType>>,
+    pub timestamp: DateTime<Utc>,
+    pub result: Vec<HashMap<String, DruidNativeType>>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct TimeBoundaryResult {
-    timestamp: DateTime<Utc>,
-    result: TimeBoundaryTimes,
+    pub timestamp: DateTime<Utc>,
+    pub result: TimeBoundaryTimes,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct TimeBoundaryTimes {
-    min_time: Option<DateTime<Utc>>,
-    max_time: Option<DateTime<Utc>>,
+    pub min_time: Option<DateTime<Utc>>,
+    pub max_time: Option<DateTime<Utc>>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct SegmentMetadataResult {
-    id: String,
-    intervals: Vec<Interval>,
-    columns: HashMap<String, HashMap<String, DruidNativeType>>,
-    aggregators: HashMap<String, HashMap<String, DruidNativeType>>,
-    query_granularity: Granularity,
-    size: usize,
-    num_rows: usize,
+    pub id: String,
+    pub intervals: Vec<Interval>,
+    pub columns: HashMap<String, HashMap<String, DruidNativeType>>,
+    pub aggregators: HashMap<String, HashMap<String, DruidNativeType>>,
+    pub query_granularity: Granularity,
+    pub size: usize,
+    pub num_rows: usize,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct DataSourceMetadataResult {
-    timestamp: DateTime<Utc>,
-    result: DataSourceMetadataTimes,
+    pub timestamp: DateTime<Utc>,
+    pub result: DataSourceMetadataTimes,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct DataSourceMetadataTimes {
-    max_ingested_event_time: DateTime<Utc>,
+    pub max_ingested_event_time: DateTime<Utc>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
