@@ -3,7 +3,9 @@ use std::collections::HashMap;
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 
-use crate::{Granularity, Interval, DruidNativeType};
+use crate::components::{
+    druid_types::DruidNativeType, granularities::Granularity, intervals::Interval,
+};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]

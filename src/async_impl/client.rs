@@ -3,8 +3,12 @@ use std::collections::HashMap;
 use serde::{Deserialize, Serialize};
 
 use crate::{
-    queries::{response::SqlResult, sql::ResultFormat},
-    DruidNativeType, DruidResponse, Query, Sql,
+    components::druid_types::DruidNativeType,
+    queries::{
+        response::{DruidResponse, SqlResult},
+        sql::{ResultFormat, Sql},
+        Query,
+    },
 };
 
 pub struct Client {
