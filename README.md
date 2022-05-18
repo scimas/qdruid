@@ -3,16 +3,16 @@
 A simple library for constructing and executing queries and parsing responses
 from Apache Druid.
 
-`use query_druid::prelude::*` for a quick-start with the library.
+`use query_druid::prelude::*;` for a quick-start with the library.
 
-[`Client`](async_impl::client::Client) provides an HTTP connection to Druid. It
-can be used to execute queries.
+`Client` provides an HTTP connection to Druid. It can be used to execute
+queries.
 
-The library is arranged in two modules, [`components`] and [`queries`].
-`components` has all of the Druid native query building blocks like aggregations
-and filters in their own modules. `queries` has all types of queries, including
-the SQL query, and a [`DruidResponse`](queries::response::DruidResponse) enum
-for representing different query and error responses from Druid.
+The library is arranged in two modules, `components` and `queries`. `components`
+has all of the Druid native query building blocks like aggregations and filters
+in their own modules. `queries` has all types of queries, including the SQL
+query, and a `DruidResponse` enum for representing different query and error
+responses from Druid.
 
 ## Usage
 
