@@ -1,6 +1,18 @@
 # Apache Druid Query Library
 
-A simple library for constructing and executing queries and parsing responses from Apache Druid.
+A simple library for constructing and executing queries and parsing responses
+from Apache Druid.
+
+`use query_druid::prelude::*` for a quick-start with the library.
+
+[`Client`](async_impl::client::Client) provides an HTTP connection to Druid. It
+can be used to execute queries.
+
+The library is arranged in two modules, [`components`] and [`queries`].
+`components` has all of the Druid native query building blocks like aggregations
+and filters in their own modules. `queries` has all types of queries, including
+the SQL query, and a [`DruidResponse`](queries::response::DruidResponse) enum
+for representing different query and error responses from Druid.
 
 ## Usage
 
@@ -8,7 +20,7 @@ A simple library for constructing and executing queries and parsing responses fr
 ```rust
 use std::error::Error;
 
-use query_druid::{Client, Sql};
+use query_druid::prelude::{Client, Sql};
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn Error>> {
@@ -26,7 +38,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
 ```rust
 use std::error::Error;
 
-use query_druid::{Client, Timeseries, Aggregator};
+use query_druid::prelude::{Client, Timeseries, Aggregator};
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn Error>> {

@@ -11,6 +11,10 @@ use crate::{
     },
 };
 
+/// An HTTP connector to Druid.
+///
+/// It can hold two different URLs for using either the native queries or the
+/// SQL query.
 pub struct Client {
     inner: reqwest::Client,
     native_endpoint: Option<String>,
@@ -26,9 +30,12 @@ pub enum Error {
     Connection(String),
     #[error("error during decoding response from druid: {0}")]
     DecodeResponse(String),
+    #[error("error response from druid {0:?}")]
+    QueryError(DruidResponse),
 }
 
 impl Client {
+    /// Create a new `Client` for both native querying and SQL querying.
     pub fn new(native_endpoint: String, sql_endpoint: String) -> Result<Self, Error> {
         if let Ok(inner) = reqwest::Client::builder().gzip(true).build() {
             Ok(Self {
@@ -41,6 +48,7 @@ impl Client {
         }
     }
 
+    /// Create a new `Client` for native querying.
     pub fn native_client(native_endpoint: String) -> Result<Self, Error> {
         if let Ok(inner) = reqwest::Client::builder().gzip(true).build() {
             Ok(Self {
@@ -53,6 +61,7 @@ impl Client {
         }
     }
 
+    /// Create a new `Client` for SQL querying.
     pub fn sql_client(sql_endpoint: String) -> Result<Self, Error> {
         if let Ok(inner) = reqwest::Client::builder().gzip(true).build() {
             Ok(Self {
@@ -65,8 +74,33 @@ impl Client {
         }
     }
 
+    /// Submit a query to Druid and get a parsed response.
+    /// 
+    /// The client uses the appropriate native or SQL query URL depending on the
+    /// type of the query. It errors if the client is not created with the
+    /// respective URL.
+    /// 
+    /// A successful query can still result in an error if the received data is
+    /// corrupted and cannot be deserialized into a known query result format.
+    /// 
+    /// # Examples
+    /// 
+    /// ```no_run
+    /// # use std::error::Error;
+    /// # use query_druid::prelude::DruidResponse;
+    /// use query_druid::prelude::{Client, Sql};
+    ///
+    /// # #[tokio::main]
+    /// # async fn main() -> Result<(), Box<dyn Error>> {
+    /// let client = Client::sql_client("http://localhost:8888/druid/v2/sql/".to_string())?;
+    /// let query = Sql::new("SELECT * FROM wikipedia LIMIT 2");
+    /// let result = client.execute(query.into()).await?;
+    /// assert!(matches!(result, DruidResponse::Sql(..)));
+    /// # Ok(())
+    /// # }
+    /// ```
     pub async fn execute(&self, query: Query) -> Result<DruidResponse, Error> {
-        match query {
+        let result = match query {
             Query::Sql(q) => self.sql_execute(q).await,
             Query::DataSourceMetadata(q) => self.native_execute(q).await,
             Query::GroupBy(q) => self.native_execute(q).await,
@@ -76,6 +110,11 @@ impl Client {
             Query::TimeBoundary(q) => self.native_execute(q).await,
             Query::Timeseries(q) => self.native_execute(q).await,
             Query::TopN(q) => self.native_execute(q).await,
+        };
+        match result {
+            Err(e) => Err(e),
+            Ok(err @ DruidResponse::QueryError { .. }) => Err(Error::QueryError(err)),
+            Ok(dr) => Ok(dr),
         }
     }
 
