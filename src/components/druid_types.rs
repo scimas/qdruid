@@ -27,6 +27,48 @@ impl DruidNativeType {
     pub fn long<T: Into<i64>>(l: T) -> Self {
         Self::Long(l.into())
     }
+
+    pub fn as_str(&self) -> Option<&str> {
+        if let Self::String(s) = self {
+            Some(s)
+        } else {
+            None
+        }
+    }
+
+    pub fn as_array(&self) -> Option<&[String]> {
+        if let Self::Array(v) = self {
+            Some(v)
+        } else {
+            None
+        }
+    }
+
+    pub fn as_i64(&self) -> Option<i64> {
+        if let Self::Long(l) = self {
+            Some(*l)
+        } else {
+            None
+        }
+    }
+
+    pub fn as_f32(&self) -> Option<f32> {
+        if let Self::Float(f) = self {
+            Some(*f)
+        } else {
+            None
+        }
+    }
+
+    pub fn as_f64(&self) -> Option<f64> {
+        if let Self::Double(d) = self {
+            Some(*d)
+        } else if let Self::Float(f) = self {
+            Some(f64::from(*f))
+        } else {
+            None
+        }
+    }
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
