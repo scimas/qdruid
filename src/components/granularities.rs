@@ -67,33 +67,37 @@ impl<'de> Deserialize<'de> for Granularity {
                 None => Err(de::Error::custom(r#"expected field "type" not found"#)),
                 Some(val) => match val {
                     Value::String(s) if s == "duration" => {
-                        let duration = map
-                            .get("duration")
-                            .ok_or(de::Error::custom(r#"expected field "duration" not found"#))?;
+                        let duration = map.get("duration").ok_or_else(|| {
+                            de::Error::custom(r#"expected field "duration" not found"#)
+                        })?;
                         let origin = if let Some(val) = map.get("origin") {
                             Some(
                                 val.as_str()
-                                    .ok_or(de::Error::custom(r#"field "origin" is not a string"#))?
+                                    .ok_or_else(|| {
+                                        de::Error::custom(r#"field "origin" is not a string"#)
+                                    })?
                                     .to_string(),
                             )
                         } else {
                             None
                         };
                         Ok(Granularity::Duration {
-                            duration: duration
-                                .as_u64()
-                                .ok_or(de::Error::custom(r#"field "duration" is not u64"#))?,
+                            duration: duration.as_u64().ok_or_else(|| {
+                                de::Error::custom(r#"field "duration" is not u64"#)
+                            })?,
                             origin,
                         })
                     }
                     Value::String(s) if s == "period" => {
-                        let period = map
-                            .get("period")
-                            .ok_or(de::Error::custom(r#"expected field "period not found"#))?;
+                        let period = map.get("period").ok_or_else(|| {
+                            de::Error::custom(r#"expected field "period not found"#)
+                        })?;
                         let origin = if let Some(val) = map.get("origin") {
                             Some(
                                 val.as_str()
-                                    .ok_or(de::Error::custom(r#"field "origin" is not a string"#))?
+                                    .ok_or_else(|| {
+                                        de::Error::custom(r#"field "origin" is not a string"#)
+                                    })?
                                     .to_string(),
                             )
                         } else {
@@ -102,9 +106,9 @@ impl<'de> Deserialize<'de> for Granularity {
                         let time_zone = if let Some(val) = map.get("timeZone") {
                             Some(
                                 val.as_str()
-                                    .ok_or(de::Error::custom(
-                                        r#"field "timeZone" is not a string"#,
-                                    ))?
+                                    .ok_or_else(|| {
+                                        de::Error::custom(r#"field "timeZone" is not a string"#)
+                                    })?
                                     .to_string(),
                             )
                         } else {
@@ -113,7 +117,9 @@ impl<'de> Deserialize<'de> for Granularity {
                         Ok(Granularity::Period {
                             period: period
                                 .as_str()
-                                .ok_or(de::Error::custom(r#"field "period" is not a string"#))?
+                                .ok_or_else(|| {
+                                    de::Error::custom(r#"field "period" is not a string"#)
+                                })?
                                 .to_string(),
                             origin,
                             time_zone,

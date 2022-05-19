@@ -5,8 +5,19 @@ use serde::{Deserialize, Serialize};
 use crate::{
     components::druid_types::DruidNativeType,
     queries::{
-        response::{DruidResponse, SqlResult},
+        datasource_metadata::DataSourceMetadata,
+        groupby::GroupBy,
+        response::{
+            DataSourceMetadataResult, DruidResponse, GroupByResult, ScanResult, SearchResult,
+            SegmentMetadataResult, SqlResult, TimeBoundaryResult, TimeseriesResult, TopNResult,
+        },
+        scan::Scan,
+        search::Search,
+        segment_metadata::SegmentMetadata,
         sql::{ResultFormat, Sql},
+        time_boundary::TimeBoundary,
+        timeseries::Timeseries,
+        topn::TopN,
         Query,
     },
 };
@@ -75,16 +86,16 @@ impl Client {
     }
 
     /// Submit a query to Druid and get a parsed response.
-    /// 
+    ///
     /// The client uses the appropriate native or SQL query URL depending on the
     /// type of the query. It errors if the client is not created with the
     /// respective URL.
-    /// 
+    ///
     /// A successful query can still result in an error if the received data is
     /// corrupted and cannot be deserialized into a known query result format.
-    /// 
+    ///
     /// # Examples
-    /// 
+    ///
     /// ```no_run
     /// # use std::error::Error;
     /// # use query_druid::prelude::DruidResponse;
@@ -102,14 +113,14 @@ impl Client {
     pub async fn execute(&self, query: Query) -> Result<DruidResponse, Error> {
         let result = match query {
             Query::Sql(q) => self.sql_execute(q).await,
-            Query::DataSourceMetadata(q) => self.native_execute(q).await,
-            Query::GroupBy(q) => self.native_execute(q).await,
-            Query::Scan(q) => self.native_execute(q).await,
-            Query::Search(q) => self.native_execute(q).await,
-            Query::SegmentMetadata(q) => self.native_execute(q).await,
-            Query::TimeBoundary(q) => self.native_execute(q).await,
-            Query::Timeseries(q) => self.native_execute(q).await,
-            Query::TopN(q) => self.native_execute(q).await,
+            Query::DataSourceMetadata(q) => self.datasource_metadata_execute(q).await,
+            Query::GroupBy(q) => self.groupby_execute(*q).await,
+            Query::Scan(q) => self.scan_execute(q).await,
+            Query::Search(q) => self.search_execute(q).await,
+            Query::SegmentMetadata(q) => self.segment_metadata_execute(q).await,
+            Query::TimeBoundary(q) => self.time_boundary_execute(q).await,
+            Query::Timeseries(q) => self.timeseries_execute(q).await,
+            Query::TopN(q) => self.topn_execute(*q).await,
         };
         match result {
             Err(e) => Err(e),
@@ -118,105 +129,247 @@ impl Client {
         }
     }
 
-    async fn native_execute<Q: Serialize>(&self, q: Q) -> Result<DruidResponse, Error> {
-        match &self.native_endpoint {
-            Some(url) => match self.inner.post(url).json(&q).send().await {
-                Ok(resp) => match resp.json().await {
-                    Ok(j) => Ok(j),
-                    Err(_) => Err(Error::DecodeResponse(
-                        "response is not valid JSON".to_string(),
-                    )),
-                },
-                Err(e) => {
-                    if let Some(url) = e.url() {
-                        Err(Error::Connection(format!(
-                            "could not connect to {:?}",
-                            url.as_str()
-                        )))
-                    } else {
-                        Err(Error::Connection("could not connect to druid".to_string()))
-                    }
-                }
+    fn is_native(&self) -> Result<(), Error> {
+        self.native_endpoint
+            .as_ref()
+            .ok_or_else(|| Error::Client("not a native query client".to_string()))
+            .map(|_| ())
+    }
+
+    fn is_sql(&self) -> Result<(), Error> {
+        self.sql_endpoint
+            .as_ref()
+            .ok_or_else(|| Error::Client("not a SQL client".to_string()))
+            .map(|_| ())
+    }
+
+    fn handle_reqwest_connection_error(e: reqwest::Error) -> Error {
+        if let Some(url) = e.url() {
+            Error::Connection(format!("could not connect to {:?}", url.as_str()))
+        } else {
+            Error::Connection("could not connect to druid".to_string())
+        }
+    }
+
+    async fn datasource_metadata_execute(
+        &self,
+        q: DataSourceMetadata,
+    ) -> Result<DruidResponse, Error> {
+        self.is_native()?;
+        match self
+            .inner
+            .post(self.native_endpoint.as_ref().unwrap())
+            .json(&q)
+            .send()
+            .await
+        {
+            Ok(resp) => match resp.json::<Vec<DataSourceMetadataResult>>().await {
+                Ok(j) => Ok(DruidResponse::DataSourceMetadata(j)),
+                Err(_) => Err(Error::DecodeResponse(
+                    "response is not valid JSON".to_string(),
+                )),
             },
-            None => Err(Error::Client("not a native query client".to_string())),
+            Err(e) => Err(Self::handle_reqwest_connection_error(e)),
+        }
+    }
+
+    async fn groupby_execute(&self, q: GroupBy) -> Result<DruidResponse, Error> {
+        self.is_native()?;
+        match self
+            .inner
+            .post(self.native_endpoint.as_ref().unwrap())
+            .json(&q)
+            .send()
+            .await
+        {
+            Ok(resp) => match resp.json::<Vec<GroupByResult>>().await {
+                Ok(j) => Ok(DruidResponse::GroupBy(j)),
+                Err(_) => Err(Error::DecodeResponse(
+                    "response is not valid JSON".to_string(),
+                )),
+            },
+            Err(e) => Err(Self::handle_reqwest_connection_error(e)),
+        }
+    }
+
+    async fn scan_execute(&self, q: Scan) -> Result<DruidResponse, Error> {
+        self.is_native()?;
+        match self
+            .inner
+            .post(self.native_endpoint.as_ref().unwrap())
+            .json(&q)
+            .send()
+            .await
+        {
+            Ok(resp) => match resp.json::<Vec<ScanResult>>().await {
+                Ok(j) => Ok(DruidResponse::Scan(j)),
+                Err(_) => Err(Error::DecodeResponse(
+                    "response is not valid JSON".to_string(),
+                )),
+            },
+            Err(e) => Err(Self::handle_reqwest_connection_error(e)),
+        }
+    }
+
+    async fn search_execute(&self, q: Search) -> Result<DruidResponse, Error> {
+        self.is_native()?;
+        match self
+            .inner
+            .post(self.native_endpoint.as_ref().unwrap())
+            .json(&q)
+            .send()
+            .await
+        {
+            Ok(resp) => match resp.json::<Vec<SearchResult>>().await {
+                Ok(j) => Ok(DruidResponse::Search(j)),
+                Err(_) => Err(Error::DecodeResponse(
+                    "response is not valid JSON".to_string(),
+                )),
+            },
+            Err(e) => Err(Self::handle_reqwest_connection_error(e)),
+        }
+    }
+
+    async fn segment_metadata_execute(&self, q: SegmentMetadata) -> Result<DruidResponse, Error> {
+        self.is_native()?;
+        match self
+            .inner
+            .post(self.native_endpoint.as_ref().unwrap())
+            .json(&q)
+            .send()
+            .await
+        {
+            Ok(resp) => match resp.json::<Vec<SegmentMetadataResult>>().await {
+                Ok(j) => Ok(DruidResponse::SegmentMetadata(j)),
+                Err(_) => Err(Error::DecodeResponse(
+                    "response is not valid JSON".to_string(),
+                )),
+            },
+            Err(e) => Err(Self::handle_reqwest_connection_error(e)),
+        }
+    }
+
+    async fn time_boundary_execute(&self, q: TimeBoundary) -> Result<DruidResponse, Error> {
+        self.is_native()?;
+        match self
+            .inner
+            .post(self.native_endpoint.as_ref().unwrap())
+            .json(&q)
+            .send()
+            .await
+        {
+            Ok(resp) => match resp.json::<Vec<TimeBoundaryResult>>().await {
+                Ok(j) => Ok(DruidResponse::TimeBoundary(j)),
+                Err(_) => Err(Error::DecodeResponse(
+                    "response is not valid JSON".to_string(),
+                )),
+            },
+            Err(e) => Err(Self::handle_reqwest_connection_error(e)),
+        }
+    }
+
+    async fn timeseries_execute(&self, q: Timeseries) -> Result<DruidResponse, Error> {
+        self.is_native()?;
+        match self
+            .inner
+            .post(self.native_endpoint.as_ref().unwrap())
+            .json(&q)
+            .send()
+            .await
+        {
+            Ok(resp) => match resp.json::<Vec<TimeseriesResult>>().await {
+                Ok(j) => Ok(DruidResponse::Timeseries(j)),
+                Err(_) => Err(Error::DecodeResponse(
+                    "response is not valid JSON".to_string(),
+                )),
+            },
+            Err(e) => Err(Self::handle_reqwest_connection_error(e)),
+        }
+    }
+
+    async fn topn_execute(&self, q: TopN) -> Result<DruidResponse, Error> {
+        self.is_native()?;
+        match self
+            .inner
+            .post(self.native_endpoint.as_ref().unwrap())
+            .json(&q)
+            .send()
+            .await
+        {
+            Ok(resp) => match resp.json::<Vec<TopNResult>>().await {
+                Ok(j) => Ok(DruidResponse::TopN(j)),
+                Err(_) => Err(Error::DecodeResponse(
+                    "response is not valid JSON".to_string(),
+                )),
+            },
+            Err(e) => Err(Self::handle_reqwest_connection_error(e)),
         }
     }
 
     async fn sql_execute(&self, q: Sql) -> Result<DruidResponse, Error> {
-        match &self.sql_endpoint {
-            Some(url) => match self.inner.post(url).json(&q).send().await {
-                Ok(resp) => match q.result_format {
-                    None | Some(ResultFormat::Object) | Some(ResultFormat::Array) => {
-                        match resp.json().await {
-                            Ok(j) => Ok(j),
+        self.is_sql()?;
+        match self
+            .inner
+            .post(self.sql_endpoint.as_ref().unwrap())
+            .json(&q)
+            .send()
+            .await
+        {
+            Ok(resp) => match q.result_format {
+                None | Some(ResultFormat::Object) | Some(ResultFormat::Array) => {
+                    match resp.json::<Vec<SqlResult>>().await {
+                        Ok(j) => Ok(DruidResponse::Sql(j)),
+                        Err(_) => Err(Error::DecodeResponse(
+                            "response is not valid JSON".to_string(),
+                        )),
+                    }
+                }
+                Some(ResultFormat::ObjectLines) => match resp.text().await {
+                    Ok(s) => {
+                        let maybe_objects: Result<Vec<HashMap<String, DruidNativeType>>, _> =
+                            s.trim().lines().map(serde_json::from_str).collect();
+                        match maybe_objects {
+                            Ok(v) => Ok(DruidResponse::Sql(
+                                v.into_iter().map(SqlResult::Object).collect(),
+                            )),
                             Err(_) => Err(Error::DecodeResponse(
-                                "response is not valid JSON".to_string(),
+                                "part of the response is not valid JSON".to_string(),
                             )),
                         }
                     }
-                    Some(ResultFormat::ObjectLines) => match resp.text().await {
-                        Ok(s) => {
-                            let maybe_objects: Result<Vec<HashMap<String, DruidNativeType>>, _> = s
-                                .trim()
-                                .lines()
-                                .map(|line| serde_json::from_str(line))
-                                .collect();
-                            match maybe_objects {
-                                Ok(v) => Ok(DruidResponse::Sql(
-                                    v.into_iter().map(|h| SqlResult::Object(h)).collect(),
-                                )),
-                                Err(_) => Err(Error::DecodeResponse(
-                                    "part of the response is not valid JSON".to_string(),
-                                )),
-                            }
-                        }
-                        Err(_) => Err(Error::DecodeResponse(
-                            "response is not valid utf-8".to_string(),
-                        )),
-                    },
-                    Some(ResultFormat::ArrayLines) => match resp.text().await {
-                        Ok(s) => {
-                            let maybe_arrays: Result<Vec<Vec<DruidNativeType>>, _> = s
-                                .trim()
-                                .lines()
-                                .map(|line| serde_json::from_str(line))
-                                .collect();
-                            match maybe_arrays {
-                                Ok(v) => Ok(DruidResponse::Sql(
-                                    v.into_iter().map(|val| SqlResult::Array(val)).collect(),
-                                )),
-                                Err(_) => Err(Error::DecodeResponse(
-                                    "part of the response is not valid JSON".to_string(),
-                                )),
-                            }
-                        }
-                        Err(_) => Err(Error::DecodeResponse(
-                            "response is not valid utf-8".to_string(),
-                        )),
-                    },
-                    Some(ResultFormat::Csv) => match resp.text().await {
-                        Ok(csv) => Ok(DruidResponse::Sql(
-                            csv.lines()
-                                .map(|line| SqlResult::Csv(line.to_string()))
-                                .collect(),
-                        )),
-                        Err(_) => Err(Error::DecodeResponse(
-                            "response is not valid utf-8".to_string(),
-                        )),
-                    },
+                    Err(_) => Err(Error::DecodeResponse(
+                        "response is not valid utf-8".to_string(),
+                    )),
                 },
-                Err(e) => {
-                    if let Some(url) = e.url() {
-                        Err(Error::Connection(format!(
-                            "could not connect to {:?}",
-                            url.as_str()
-                        )))
-                    } else {
-                        Err(Error::Connection("could not connect to druid".to_string()))
+                Some(ResultFormat::ArrayLines) => match resp.text().await {
+                    Ok(s) => {
+                        let maybe_arrays: Result<Vec<Vec<DruidNativeType>>, _> =
+                            s.trim().lines().map(serde_json::from_str).collect();
+                        match maybe_arrays {
+                            Ok(v) => Ok(DruidResponse::Sql(
+                                v.into_iter().map(SqlResult::Array).collect(),
+                            )),
+                            Err(_) => Err(Error::DecodeResponse(
+                                "part of the response is not valid JSON".to_string(),
+                            )),
+                        }
                     }
-                }
+                    Err(_) => Err(Error::DecodeResponse(
+                        "response is not valid utf-8".to_string(),
+                    )),
+                },
+                Some(ResultFormat::Csv) => match resp.text().await {
+                    Ok(csv) => Ok(DruidResponse::Sql(
+                        csv.lines()
+                            .map(|line| SqlResult::Csv(line.to_string()))
+                            .collect(),
+                    )),
+                    Err(_) => Err(Error::DecodeResponse(
+                        "response is not valid utf-8".to_string(),
+                    )),
+                },
             },
-            None => Err(Error::Client("not a SQL client".to_string())),
+            Err(e) => Err(Self::handle_reqwest_connection_error(e)),
         }
     }
 }

@@ -43,9 +43,21 @@ impl From<TopN> for Query {
     }
 }
 
+impl From<Box<TopN>> for Query {
+    fn from(topn_query: Box<TopN>) -> Self {
+        Self::TopN(topn_query)
+    }
+}
+
 impl From<GroupBy> for Query {
     fn from(groupby_query: GroupBy) -> Self {
         Self::GroupBy(Box::new(groupby_query))
+    }
+}
+
+impl From<Box<GroupBy>> for Query {
+    fn from(groupby_query: Box<GroupBy>) -> Self {
+        Self::GroupBy(groupby_query)
     }
 }
 
