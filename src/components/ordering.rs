@@ -7,4 +7,5 @@ pub enum Ordering {
     Lexicographic,
     Numeric,
     Strlen,
+    Version,
 }

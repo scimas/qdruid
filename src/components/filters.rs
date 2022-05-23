@@ -2,7 +2,7 @@ use serde::{Deserialize, Serialize};
 
 use super::{
     dimension_specs::DimensionSpec, extraction_functions::ExtractionFunction, intervals::Interval,
-    search_query_specs::SearchQuerySpec,
+    ordering::Ordering, search_query_specs::SearchQuerySpec,
 };
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -61,7 +61,7 @@ pub enum Filter {
         upper: Option<String>,
         lower_strict: Option<bool>,
         upper_strict: Option<bool>,
-        ordering: Option<String>, // must be one of "lexicographic", "alphanumeric", "numeric", "strlen", "version"
+        ordering: Option<Ordering>,
         extraction_fn: Option<ExtractionFunction>,
     },
     Interval {
@@ -199,7 +199,7 @@ impl Filter {
         upper: Option<String>,
         lower_strict: Option<bool>,
         upper_strict: Option<bool>,
-        ordering: Option<String>,
+        ordering: Option<Ordering>,
         extraction_fn: Option<ExtractionFunction>,
     ) -> Self {
         Self::Bound {
