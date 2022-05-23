@@ -69,7 +69,7 @@ pub enum Error {
 impl Client {
     /// Create a new `Client` for both native querying and SQL querying.
     pub fn new(native_endpoint: String, sql_endpoint: String) -> Result<Self, Error> {
-        if let Ok(inner) = reqwest::Client::builder().gzip(true).build() {
+        if let Ok(inner) = Self::get_default_builder().build() {
             Ok(Self {
                 inner,
                 native_endpoint: Some(native_endpoint),
@@ -104,6 +104,18 @@ impl Client {
         } else {
             Err(Error::Client("could not create a client".to_string()))
         }
+    }
+
+    /// Change the internal `reqwest::Client`.
+    ///
+    /// See also [`Self::get_default_builder`].
+    pub fn change_internal_client(&mut self, client: reqwest::Client) {
+        self.inner = client;
+    }
+
+    /// Get the internal `reqwest::ClientBuilder` for further customization.
+    pub fn get_default_builder() -> reqwest::ClientBuilder {
+        reqwest::Client::builder().gzip(true)
     }
 
     fn is_native(&self) -> Result<(), Error> {
