@@ -7,24 +7,14 @@ use crate::components::{
     druid_types::DruidNativeType, granularities::Granularity, intervals::Interval,
 };
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(untagged)]
-pub enum DruidResponse {
-    QueryError {
-        error: String,
-        error_message: String,
-        error_class: String,
-        host: String,
-    },
-    Timeseries(Vec<TimeseriesResult>),
-    TopN(Vec<TopNResult>),
-    GroupBy(Vec<GroupByResult>),
-    Scan(Vec<ScanResult>),
-    Search(Vec<SearchResult>),
-    TimeBoundary(Vec<TimeBoundaryResult>),
-    SegmentMetadata(Vec<SegmentMetadataResult>),
-    DataSourceMetadata(Vec<DataSourceMetadataResult>),
-    Sql(Vec<SqlResult>),
+#[derive(Debug, Clone, Serialize, Deserialize, thiserror::Error)]
+#[serde(rename_all = "camelCase")]
+#[error("query error: {error_message}")]
+pub struct QueryError {
+    pub error: String,
+    pub error_message: String,
+    pub error_class: String,
+    pub host: String,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]

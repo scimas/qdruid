@@ -8,11 +8,11 @@ from Apache Druid.
 `Client` provides an HTTP connection to Druid. It can be used to execute
 queries.
 
-The library is arranged in two modules, `components` and `queries`. `components`
-has all of the Druid native query building blocks like aggregations and filters
-in their own modules. `queries` has all types of queries, including the SQL
-query, and a `DruidResponse` enum for representing different query and error
-responses from Druid.
+The library is arranged in two modules, components and queries. components has
+all of the Druid native query building blocks like aggregations and filters in
+their own modules. queries has all types of queries, including the SQL query,
+and various structs in the `response` module for representing different query
+and error responses from Druid.
 
 ## Usage
 
@@ -28,7 +28,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
 
     let query = Sql::new("SELECT * FROM wikipedia LIMIT 2");
 
-    let result = client.execute(query.into()).await?;
+    let result = client.sql(query).await?;
 
     Ok(())
 }
@@ -52,7 +52,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
     )
     .aggregations(&aggs);
 
-    let result = client.execute(query.into()).await?;
+    let result = client.timeseries(query).await?;
 
     Ok(())
 }

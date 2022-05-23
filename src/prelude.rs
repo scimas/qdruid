@@ -1,8 +1,12 @@
 pub use crate::async_impl::client::Client;
+pub use crate::async_impl::client::Error;
 
 pub use crate::queries::datasource_metadata::DataSourceMetadata;
 pub use crate::queries::groupby::GroupBy;
-pub use crate::queries::response::DruidResponse;
+pub use crate::queries::response::{
+    DataSourceMetadataResult, GroupByResult, ScanResult, SearchResult, SegmentMetadataResult,
+    SqlResult, TimeBoundaryResult, TimeseriesResult, TopNResult,
+};
 pub use crate::queries::scan::Scan;
 pub use crate::queries::search::Search;
 pub use crate::queries::segment_metadata::SegmentMetadata;
